@@ -3,6 +3,7 @@ services:
   gateway:
     depends_on:
       - backend
+      - frontend
     restart: always
     build:
       context: ./gateway
@@ -26,3 +27,11 @@ services:
       - PGDATABASE_DEVELOPMENT=users_development
       - PGDATABASE_TEST=users_test
       - PGDATABASE_PRODUCTION=users_production
+  frontend:
+    # This was new: https://github.com/facebook/create-react-app/issues/8688
+    stdin_open: true
+    build:
+      context: ./frontend
+    volumes:
+      - /frontend/node_modules
+      - ./frontend:/frontend
