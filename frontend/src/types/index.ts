@@ -1,5 +1,9 @@
 export enum LoadingState {
   NOT_LOADED,
   LOADING,
-  LOADED
+  LOADED,
 }
+
+export type Errors = {
+  [key: string]: string[];
+};
