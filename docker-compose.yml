@@ -1,6 +1,28 @@
 version: '3'
 services:
+  gateway:
+    depends_on:
+      - backend
+    restart: always
+    build:
+      context: ./gateway
+    ports:
+      - 80:80
+  postgres:
+    image: 'postgres:latest'
+    volumes:
+      - ./backend/tmp/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
   backend:
     build:
-      dockerfile: Dockerfile
       context: ./backend
+    depends_on:
+      - postgres
+    environment:
+      - PGHOST=postgres
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - PGDATABASE_DEVELOPMENT=users_development
+      - PGDATABASE_TEST=users_test
+      - PGDATABASE_PRODUCTION=users_production
