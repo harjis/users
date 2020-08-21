@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "awesome-debounce-promise": "^2.1.0",
     "ky": "^0.23.0",
     "prettier": "^2.0.5",
     "react": "^16.13.1",

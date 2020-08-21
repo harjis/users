@@ -1,4 +1,5 @@
 import React from "react";
+import AwesomeDebouncePromise from "awesome-debounce-promise";
 
 import useForm from "../../../../hooks/useForm";
 import { createUser, validateUser } from "../../api";
@@ -6,11 +7,12 @@ import { User } from "../../types";
 
 import styles from "./UserForm.module.css";
 
+const debouncedValidateUser = AwesomeDebouncePromise(validateUser, 200);
 const initialUser: User = { id: null, age: 0, name: "", email: "" };
 export const UserForm = () => {
   const { data, errors, isValid, onSave, onSetData } = useForm(
     createUser,
-    validateUser,
+    debouncedValidateUser,
     initialUser
   );
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -19,6 +21,7 @@ export const UserForm = () => {
     onSetData("age", event.currentTarget.value);
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
     onSetData("email", event.currentTarget.value);
+
   return (
     <div className={styles.container}>
       <div className={styles.row}>Create a user. isValid: {`${isValid}`}</div>
