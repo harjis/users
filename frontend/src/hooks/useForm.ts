@@ -4,7 +4,7 @@ import useAsyncCallback from "./useAsyncCallback";
 
 type Callback<T> = (data: T) => Promise<T>;
 type ReturnType<T> = {
-  data: T | undefined;
+  data: T;
   errors: Errors | undefined;
   onSave: () => {};
   onSetData: (key: string, value: any) => void;
