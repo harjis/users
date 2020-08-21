@@ -12,10 +12,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user" do
     assert_difference('User.count') do
-      post users_url, params: { user: { age: @user.age, email: 'new_unique@email.com', name: @user.name } }, as: :json
+      post users_url, params: { age: @user.age, email: 'new_unique@email.com', name: @user.name }, as: :json
     end
 
     assert_response 201
+  end
+
+  test "should NOT create user with duplicate email" do
+    post users_url, params: { age: @user.age, email: @user.email, name: @user.name }, as: :json
+    assert_response :unprocessable_entity
+    pp @response.body
   end
 
   test "should show user" do
@@ -24,7 +30,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user" do
-    patch user_url(@user), params: { user: { age: @user.age, email: @user.email, name: @user.name } }, as: :json
+    patch user_url(@user), params: { age: @user.age, email: @user.email, name: @user.name }, as: :json
     assert_response 200
   end
 

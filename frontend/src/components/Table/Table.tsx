@@ -10,15 +10,15 @@ export default function Table(props: Props) {
       <thead>
         <tr>
           {props.headers.map((header) => (
-            <td>{header}</td>
+            <td key={header}>{header}</td>
           ))}
         </tr>
       </thead>
       <tbody>
-        {props.rows.map((row) => (
-          <tr>
+        {props.rows.map((row, i) => (
+          <tr key={i}>
             {props.headers.map((header) => (
-              <td>{row[header]}</td>
+              <td key={header}>{row[header]}</td>
             ))}
           </tr>
         ))}
