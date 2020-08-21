@@ -13,7 +13,7 @@ type ReturnType<T> = {
   onSetData: (key: string, value: any) => void;
 };
 export default function useForm<T>(
-  callback: Callback<T>,
+  createCallback: Callback<T>,
   validationCallback: (data: T) => Promise<ValidationResult>,
   initialData: T
 ): ReturnType<T> {
@@ -28,7 +28,7 @@ export default function useForm<T>(
   const onSave = useAsyncCallback(async (isMounted) => {
     if (isMounted()) {
       try {
-        await callback(data);
+        await createCallback(data);
         setData(initialData);
       } catch (error) {
         const errors: Errors = await error.response.json();

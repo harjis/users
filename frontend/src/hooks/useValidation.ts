@@ -15,11 +15,11 @@ export default function useValidation(
     let isMounted = true;
     const validate = (): void => {
       validationCallback()
-        .then((_data) => {
+        .then((validationResult) => {
           if (isMounted) {
             setValidationResult({
-              isValid: _data.isValid,
-              errors: formatErrors(_data.errors),
+              isValid: validationResult.isValid,
+              errors: formatErrors(validationResult.errors),
             });
           }
         })
