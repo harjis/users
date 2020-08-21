@@ -18,10 +18,9 @@ export default function useForm<T>(
   initialData: T
 ): ReturnType<T> {
   const [data, setData] = useState<T>(initialData);
-  const _validationCallback = useCallback(() => validationCallback(data), [
-    data,
-  ]);
-  const validation = useValidation(_validationCallback);
+  const validation = useValidation(
+    useCallback(() => validationCallback(data), [data])
+  );
 
   const onSetData = (key: string, value: any) =>
     setData((prevData) => ({ ...prevData, [key]: value }));

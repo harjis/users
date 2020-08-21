@@ -17,7 +17,6 @@ export default function useValidation(
       validationCallback()
         .then((_data) => {
           if (isMounted) {
-            console.log("Validation result:", _data);
             setValidationResult({
               isValid: _data.isValid,
               errors: formatErrors(_data.errors),
