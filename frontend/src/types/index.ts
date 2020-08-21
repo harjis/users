@@ -8,6 +8,10 @@ export type Errors = {
   [key: string]: string[];
 };
 
+export type FormattedErrors = {
+  [key: string]: string;
+};
+
 export type ValidationResult = {
   isValid: boolean;
   errors: Errors;

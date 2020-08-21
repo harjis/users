@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
-import { Errors, ValidationResult } from "../types";
+import { Errors, FormattedErrors, ValidationResult } from "../types";
 
-type FormattedErrors = {
-  [key: string]: string;
-};
-export type ValidationCallback = () => Promise<ValidationResult>;
-type State = { isValid: boolean; errors: FormattedErrors | undefined };
+type ValidationCallback = () => Promise<ValidationResult>;
+type State = { isValid: boolean; errors: FormattedErrors };
 type ReturnType = State & { onSetValidationErrors: (errors: Errors) => void };
 const initialState: State = { isValid: false, errors: {} };
 export default function useValidation(
@@ -49,7 +46,7 @@ export default function useValidation(
   return { ...state, onSetValidationErrors };
 }
 
-export const formatErrors = (errors: Errors): FormattedErrors =>
+const formatErrors = (errors: Errors): FormattedErrors =>
   Object.entries(errors).reduce(
     (acc, [key, value]) => ({
       ...acc,
