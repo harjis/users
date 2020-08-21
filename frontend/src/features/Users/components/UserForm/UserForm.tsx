@@ -30,7 +30,7 @@ export const UserForm = () => {
         <div>Name:</div>
         <div>
           <input type="text" value={data.name} onChange={onChangeName} />
-          {errors && errors.name}
+          {errors.name}
         </div>
       </div>
 
@@ -38,7 +38,7 @@ export const UserForm = () => {
         <div>Age:</div>
         <div>
           <input type="text" value={data.age} onChange={onChangeAge} />
-          {errors && errors.age}
+          {errors.age}
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export const UserForm = () => {
         <div>Email:</div>
         <div>
           <input type="text" value={data.email} onChange={onChangeEmail} />
-          {errors && errors.email}
+          {errors.email}
         </div>
       </div>
 
