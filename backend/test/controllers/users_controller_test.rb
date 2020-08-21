@@ -41,4 +41,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response 204
   end
+
+  test "should validate valid user" do
+    post users_validate_path, params: { age: @user.age, email: 'new_unique@email.com', name: @user.name }, as: :json
+    json = JSON.parse(@response.body)
+    assert_equal true, json['isValid']
+    assert_equal({}, json['errors'])
+  end
+
+  test "should validate invalid user" do
+    post users_validate_path, params: { age: @user.age, email: @user.email, name: @user.name }, as: :json
+    json = JSON.parse(@response.body)
+    assert_equal false, json['isValid']
+    assert_not_empty json['errors']
+  end
 end

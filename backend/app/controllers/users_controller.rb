@@ -38,14 +38,26 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # POST /users/validate
+  def validate
+    @user = User.new(user_params)
 
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.permit(:name, :age, :email)
+    if @user.valid?
+      render json: { isValid: true, errors: {} }, status: :ok
+    else
+      render json: { isValid: false, errors: @user.errors }, status: :ok
     end
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.permit(:name, :age, :email)
+  end
 end

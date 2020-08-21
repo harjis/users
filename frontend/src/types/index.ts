@@ -7,3 +7,8 @@ export enum LoadingState {
 export type Errors = {
   [key: string]: string[];
 };
+
+export type ValidationResult = {
+  isValid: boolean;
+  errors: Errors;
+};
