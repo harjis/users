@@ -4,11 +4,20 @@ services:
     depends_on:
       - backend
       - frontend
+      - graphiql
     restart: always
     build:
       context: ./gateway
     ports:
       - 80:80
+  graphiql:
+    depends_on:
+      - backend
+    restart: always
+    build:
+      context: ./graphiql
+    ports:
+      - 3002:3002
   postgres:
     image: 'postgres:latest'
     volumes:
