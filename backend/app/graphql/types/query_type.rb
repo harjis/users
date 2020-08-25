@@ -2,13 +2,12 @@ module Types
   class QueryType < Types::BaseObject
     description "The query root of this schema"
 
-    field :user, UserType, null: false do
-      description "Find user by ID"
-      argument :id, ID, required: true
+    field :users, [UserType], null: false do
+      description "Find all users"
     end
 
-    def user(id:)
-      User.find id
+    def users
+      User.all
     end
   end
 end
