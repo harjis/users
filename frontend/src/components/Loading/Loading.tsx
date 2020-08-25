@@ -1,21 +1,20 @@
-import React from "react";
-
-import { LoadingState } from "../../types";
+import React, { ReactNode } from "react";
 
 import styles from "./Loading.module.css";
 
-type Props = {
-  loadingState: LoadingState;
-  error: string | null;
+type Props<T> = {
+  children: (data: T) => ReactNode;
+  data: T | undefined;
+  loadingState: boolean;
+  error: string | undefined;
 };
-const Loading: React.FC<Props> = (props) => {
-  if (props.loadingState === LoadingState.NOT_LOADED) {
-    return <div className={styles.container}>Not loaded</div>;
-  } else if (props.loadingState === LoadingState.LOADING) {
+export default function Loading<T>(props: Props<T>) {
+  if (props.loadingState) {
     return <div className={styles.container}>Loading...</div>;
   } else {
-    return <React.Fragment>{props.children}</React.Fragment>;
+    if (props.data === undefined) {
+      return null;
+    }
+    return <React.Fragment>{props.children(props.data)}</React.Fragment>;
   }
-};
-
-export default Loading;
+}

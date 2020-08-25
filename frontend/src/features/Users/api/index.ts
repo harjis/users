@@ -1,16 +1,25 @@
-import ky from "ky";
-
 import { User } from "../types";
 import { ValidationResult } from "../../../types";
+import { gql } from "@apollo/client";
 
-export function getUsers(): Promise<User[]> {
-  return ky.get("/api/users").json();
-}
+export type GetUsersData = {
+  users: User[];
+};
+export const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      age
+      name
+      email
+    }
+  }
+`;
 
 export function createUser(user: User): Promise<User> {
-  return ky.post("/api/users", { json: user }).json();
+  return Promise.resolve(user);
 }
 
 export function validateUser(user: User): Promise<ValidationResult> {
-  return ky.post("/api/users/validate", { json: user }).json();
+  return Promise.resolve({ isValid: true, errors: {} });
 }
