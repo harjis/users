@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import useAsyncCallback from "./useAsyncCallback";
 import useValidation from "./useValidation";
@@ -18,9 +18,7 @@ export default function useForm<T>(
   initialData: T
 ): ReturnType<T> {
   const [data, setData] = useState<T>(initialData);
-  const validation = useValidation(
-    useCallback(() => validationCallback(data), [validationCallback, data])
-  );
+  const validation = useValidation(validationCallback, data);
 
   const onSetData = (key: string, value: any) =>
     setData((prevData) => ({ ...prevData, [key]: value }));

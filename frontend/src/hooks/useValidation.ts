@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { Errors, FormattedErrors, ValidationResult } from "../types";
+import { debouncedPromise } from "./debounce";
 
-type ValidationCallback = () => Promise<ValidationResult>;
+type ValidationCallback<T> = (data: T) => Promise<ValidationResult>;
 type State = { isValid: boolean; errors: FormattedErrors };
 type ReturnType = State & { onSetValidationErrors: (errors: Errors) => void };
 const initialState: State = { isValid: false, errors: {} };
-export default function useValidation(
-  validationCallback: ValidationCallback
+export default function useValidation<T>(
+  validationCallback: ValidationCallback<T>,
+  data: T
 ): ReturnType {
   const [state, setValidationResult] = useState<State>(initialState);
+  const debouncedValidationCallback = useCallback(
+    debouncedPromise(validationCallback, 500),
+    []
+  );
 
   React.useEffect(() => {
     let isMounted = true;
     const validate = (): void => {
-      validationCallback()
-        .then((validationResult) => {
+      debouncedValidationCallback(data)
+        .then((_validationResult) => {
+          const validationResult = _validationResult as ValidationResult;
           if (isMounted) {
             setValidationResult({
               isValid: validationResult.isValid,
@@ -34,7 +41,7 @@ export default function useValidation(
     return (): void => {
       isMounted = false;
     };
-  }, [validationCallback]);
+  }, [debouncedValidationCallback, data]);
 
   const onSetValidationErrors = (errors: Errors) =>
     setValidationResult((prevState) => ({
