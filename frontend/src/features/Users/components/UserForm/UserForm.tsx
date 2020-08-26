@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import debounce from "lodash/debounce";
+import { useMutation } from "@apollo/client";
 
+import useValidation from "../../../../hooks/useValidation";
 import { CREATE_USER, CreateUserData, CreateUserInput } from "../../mutations";
 import { User } from "../../types";
+import { VALIDATE_USER, ValidateUserData } from "../../queries";
 
 import styles from "./UserForm.module.css";
-import {
-  VALIDATE_USER,
-  ValidateUserData,
-  ValidateUserInput,
-} from "../../queries";
 
 const initialUser: User = { age: 0, name: "", email: "" };
 export const UserForm = () => {
@@ -19,7 +15,11 @@ export const UserForm = () => {
     CreateUserInput
   >(CREATE_USER);
   const [data, setData] = useState<User>(initialUser);
-  const [errors, setErrors] = useState({ isValid: false, errors: {} });
+  const validation = useValidation<User, ValidateUserData>(
+    VALIDATE_USER,
+    data,
+    (validationData) => validationData.validateUser.errors
+  );
 
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.currentTarget.value;
@@ -39,25 +39,12 @@ export const UserForm = () => {
   const onSave = () => {
     createUser({ variables: { input: data } }).then(({ data }) => {
       if (data?.createUser.errors) {
-        setErrors({ isValid: false, errors: data?.createUser.errors });
+        validation.onSetValidationErrors(data?.createUser.errors);
       } else {
         setData(initialUser);
       }
     });
   };
-
-  const [validateUser, { data: validationData }] = useLazyQuery<
-    ValidateUserData,
-    ValidateUserInput
-  >(VALIDATE_USER);
-  const debouncedValidateUser = React.useCallback(
-    debounce(validateUser, 500),
-    []
-  );
-
-  React.useEffect(() => {
-    debouncedValidateUser({ variables: data });
-  }, [debouncedValidateUser, data]);
 
   return (
     <div className={styles.container}>
@@ -69,8 +56,7 @@ export const UserForm = () => {
         <div>Name:</div>
         <div>
           <input type="text" value={data.name} onChange={onChangeName} />
-          {validationData?.validateUser.errors.name ||
-            mutationData?.createUser.errors.name}
+          {validation.mergedErrors().name}
         </div>
       </div>
 
@@ -78,8 +64,7 @@ export const UserForm = () => {
         <div>Age:</div>
         <div>
           <input type="text" value={data.age} onChange={onChangeAge} />
-          {validationData?.validateUser.errors.age ||
-            mutationData?.createUser.errors.age}
+          {validation.mergedErrors().age}
         </div>
       </div>
 
@@ -87,8 +72,7 @@ export const UserForm = () => {
         <div>Email:</div>
         <div>
           <input type="text" value={data.email} onChange={onChangeEmail} />
-          {validationData?.validateUser.errors.email ||
-            mutationData?.createUser.errors.email}
+          {validation.mergedErrors().email}
         </div>
       </div>
 
