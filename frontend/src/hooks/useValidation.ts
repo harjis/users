@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
+import AwesomeDebouncePromise from "awesome-debounce-promise";
 
 import { Errors, FormattedErrors, ValidationResult } from "../types";
-import { debouncedPromise } from "./debounce";
 
 type ValidationCallback<T> = (data: T) => Promise<ValidationResult>;
 type State = { isValid: boolean; errors: FormattedErrors };
@@ -13,7 +13,7 @@ export default function useValidation<T>(
 ): ReturnType {
   const [state, setValidationResult] = useState<State>(initialState);
   const debouncedValidationCallback = useCallback(
-    debouncedPromise(validationCallback, 500),
+    AwesomeDebouncePromise(validationCallback, 500),
     []
   );
 
