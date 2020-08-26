@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-
-import { CREATE_USER, CreateUserData, CreateUserInput } from "../../api";
 import { useMutation } from "@apollo/client";
+
+import { CREATE_USER, CreateUserData, CreateUserInput } from "../../mutations";
 import { User } from "../../types";
 
 import styles from "./UserForm.module.css";

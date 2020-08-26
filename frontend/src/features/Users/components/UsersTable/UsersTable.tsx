@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 
 import Loading from "../../../../components/Loading/Loading";
 import Table from "../../../../components/Table/Table";
-import { GET_USERS, GetUsersData } from "../../api";
+import { GET_USERS, GetUsersData } from "../../queries";
 
 export const UsersTable = () => {
   const { data, error, loading } = useQuery<GetUsersData>(GET_USERS);
