@@ -36,6 +36,7 @@ export default function useValidation<Data, ValidationReturnData>(
   }, [debouncedValidationCallback, data]);
 
   const onSetValidationErrors = (errors: Errors) => setErrors(errors);
+  // This is just :D
   const mergedErrors = (): FormattedErrors =>
     validationData !== undefined
       ? formatErrors({
