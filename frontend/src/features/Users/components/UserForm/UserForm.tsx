@@ -1,16 +1,15 @@
 import React from "react";
 
 import useForm from "../../../../hooks/useForm";
-import { createUser, validateUser } from "../../api";
+import { CREATE_USER } from "../../api";
 import { User } from "../../types";
 
 import styles from "./UserForm.module.css";
 
-const initialUser: User = { id: null, age: 0, name: "", email: "" };
+const initialUser: User = { age: 0, name: "", email: "" };
 export const UserForm = () => {
   const { data, errors, isValid, onSave, onSetData } = useForm(
-    createUser,
-    validateUser,
+    CREATE_USER,
     initialUser
   );
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) =>

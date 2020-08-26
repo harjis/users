@@ -1,10 +1,10 @@
+import { DocumentNode } from "graphql";
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
 
 import useAsyncCallback from "./useAsyncCallback";
-import useValidation from "./useValidation";
-import { Errors, FormattedErrors, ValidationResult } from "../types";
+import { Errors, FormattedErrors } from "../types";
 
-type Callback<T> = (data: T) => Promise<T>;
 type ReturnType<T> = {
   data: T;
   errors: FormattedErrors;
@@ -13,12 +13,11 @@ type ReturnType<T> = {
   onSetData: (key: string, value: any) => void;
 };
 export default function useForm<T>(
-  createCallback: Callback<T>,
-  validationCallback: (data: T) => Promise<ValidationResult>,
+  upsertMutation: DocumentNode,
   initialData: T
 ): ReturnType<T> {
   const [data, setData] = useState<T>(initialData);
-  const validation = useValidation(validationCallback, data);
+  const [createCallback] = useMutation(upsertMutation);
 
   const onSetData = (key: string, value: any) =>
     setData((prevData) => ({ ...prevData, [key]: value }));
@@ -26,19 +25,18 @@ export default function useForm<T>(
   const onSave = useAsyncCallback(async (isMounted) => {
     if (isMounted()) {
       try {
-        await createCallback(data);
+        await createCallback({ variables: { input: data } });
         setData(initialData);
-      } catch (error) {
-        const errors: Errors = await error.response.json();
-        validation.onSetValidationErrors(errors);
+      } catch (errors) {
+        console.log(errors);
       }
     }
   });
 
   return {
     data,
-    errors: validation.errors,
-    isValid: validation.isValid,
+    errors: {},
+    isValid: true,
     onSave,
     onSetData,
   };

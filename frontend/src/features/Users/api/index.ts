@@ -1,11 +1,12 @@
 import { User } from "../types";
 import { ValidationResult } from "../../../types";
-import { gql } from "@apollo/client";
+import { DocumentNode, gql } from "@apollo/client";
 
 export type GetUsersData = {
   users: User[];
 };
-export const GET_USERS = gql`
+// I would have thought TS to complain about implicit any but noo..
+export const GET_USERS: DocumentNode = gql`
   query GetUsers {
     users {
       id
@@ -16,9 +17,19 @@ export const GET_USERS = gql`
   }
 `;
 
-export function createUser(user: User): Promise<User> {
-  return Promise.resolve(user);
-}
+export const CREATE_USER = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      user {
+        id
+        name
+        age
+        email
+      }
+      errors
+    }
+  }
+`;
 
 export function validateUser(user: User): Promise<ValidationResult> {
   return Promise.resolve({ isValid: true, errors: {} });
