@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import debounce from "lodash/debounce";
 
 import { CREATE_USER, CreateUserData, CreateUserInput } from "../../mutations";
 import { User } from "../../types";
 
 import styles from "./UserForm.module.css";
+import {
+  VALIDATE_USER,
+  ValidateUserData,
+  ValidateUserInput,
+} from "../../queries";
 
 const initialUser: User = { age: 0, name: "", email: "" };
 export const UserForm = () => {
@@ -14,15 +20,20 @@ export const UserForm = () => {
   >(CREATE_USER);
   const [data, setData] = useState<User>(initialUser);
 
-  const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setData((prevData) => ({ ...prevData, name: event.currentTarget.value }));
-  const onChangeAge = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setData((prevData) => ({
-      ...prevData,
-      age: parseInt(event.currentTarget.value),
-    }));
-  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setData((prevData) => ({ ...prevData, email: event.currentTarget.value }));
+  const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.currentTarget.value;
+    setData((prevData) => ({ ...prevData, name }));
+  };
+
+  const onChangeAge = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const age = parseInt(event.currentTarget.value);
+    setData((prevData) => ({ ...prevData, age }));
+  };
+
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const email = event.currentTarget.value;
+    setData((prevData) => ({ ...prevData, email }));
+  };
 
   const onSave = () => {
     createUser({ variables: { input: data } }).then(({ data }) => {
@@ -31,6 +42,19 @@ export const UserForm = () => {
       }
     });
   };
+
+  const [validateUser, { data: validationData }] = useLazyQuery<
+    ValidateUserData,
+    ValidateUserInput
+  >(VALIDATE_USER);
+  const debouncedValidateUser = React.useCallback(
+    debounce(validateUser, 500),
+    []
+  );
+
+  React.useEffect(() => {
+    debouncedValidateUser({ variables: data });
+  }, [debouncedValidateUser, data]);
 
   return (
     <div className={styles.container}>

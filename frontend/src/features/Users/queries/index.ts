@@ -1,7 +1,7 @@
 import { DocumentNode, gql } from "@apollo/client";
 
 import { User } from "../types";
-import { ValidationResult } from "../../../types";
+import { Errors } from "../../../types";
 
 export type GetUsersData = {
   users: User[];
@@ -18,6 +18,22 @@ export const GET_USERS: DocumentNode = gql`
   }
 `;
 
-export function validateUser(user: User): Promise<ValidationResult> {
-  return Promise.resolve({ isValid: true, errors: {} });
-}
+export type ValidateUserInput = {
+  name: string;
+  age: number;
+  email: string;
+};
+export type ValidateUserData = {
+  validateUser: {
+    errors: Errors;
+    isValid: boolean;
+  };
+};
+export const VALIDATE_USER: DocumentNode = gql`
+  query ValidateUser($name: String!, $age: Int!, $email: String!) {
+    validateUser(name: $name, age: $age, email: $email) {
+      errors
+      isValid
+    }
+  }
+`;
