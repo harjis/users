@@ -19,6 +19,7 @@ export const UserForm = () => {
     CreateUserInput
   >(CREATE_USER);
   const [data, setData] = useState<User>(initialUser);
+  const [errors, setErrors] = useState({ isValid: false, errors: {} });
 
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.currentTarget.value;
@@ -37,7 +38,9 @@ export const UserForm = () => {
 
   const onSave = () => {
     createUser({ variables: { input: data } }).then(({ data }) => {
-      if (data?.createUser.errors === null) {
+      if (data?.createUser.errors) {
+        setErrors({ isValid: false, errors: data?.createUser.errors });
+      } else {
         setData(initialUser);
       }
     });
@@ -66,7 +69,8 @@ export const UserForm = () => {
         <div>Name:</div>
         <div>
           <input type="text" value={data.name} onChange={onChangeName} />
-          {mutationData?.createUser.errors.name}
+          {validationData?.validateUser.errors.name ||
+            mutationData?.createUser.errors.name}
         </div>
       </div>
 
@@ -74,7 +78,8 @@ export const UserForm = () => {
         <div>Age:</div>
         <div>
           <input type="text" value={data.age} onChange={onChangeAge} />
-          {mutationData?.createUser.errors.age}
+          {validationData?.validateUser.errors.age ||
+            mutationData?.createUser.errors.age}
         </div>
       </div>
 
@@ -82,7 +87,8 @@ export const UserForm = () => {
         <div>Email:</div>
         <div>
           <input type="text" value={data.email} onChange={onChangeEmail} />
-          {mutationData?.createUser.errors.email}
+          {validationData?.validateUser.errors.email ||
+            mutationData?.createUser.errors.email}
         </div>
       </div>
 
