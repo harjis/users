@@ -1,6 +1,7 @@
-import { User } from "../types";
-import { ValidationResult } from "../../../types";
 import { DocumentNode, gql } from "@apollo/client";
+
+import { User } from "../types";
+import { Errors, ValidationResult } from "../../../types";
 
 export type GetUsersData = {
   users: User[];
@@ -17,11 +18,16 @@ export const GET_USERS: DocumentNode = gql`
   }
 `;
 
+export type CreateUserInput = {
+  input: User;
+};
+export type CreateUserData = {
+  createUser: { user: User | null; errors: Errors };
+};
 export const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
       user {
-        id
         name
         age
         email
