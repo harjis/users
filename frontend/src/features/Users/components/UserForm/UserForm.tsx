@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 import useValidation from "../../../../hooks/useValidation";
 import { CREATE_USER, CreateUserData, CreateUserInput } from "../../mutations";
 import { User } from "../../types";
-import { VALIDATE_USER, ValidateUserData } from "../../queries";
+import { GET_USERS, VALIDATE_USER, ValidateUserData } from "../../queries";
 
 import styles from "./UserForm.module.css";
 
@@ -13,7 +13,22 @@ export const UserForm = () => {
   const [createUser, { data: mutationData }] = useMutation<
     CreateUserData,
     CreateUserInput
-  >(CREATE_USER);
+  >(CREATE_USER, {
+    update(cache, { data: createdUser }) {
+      cache.modify({
+        fields: {
+          users(existingUsers = []) {
+            cache.writeQuery({
+              query: GET_USERS,
+              data: {
+                users: [...existingUsers, createdUser?.createUser.user],
+              },
+            });
+          },
+        },
+      });
+    },
+  });
   const [data, setData] = useState<User>(initialUser);
   const validation = useValidation<User, ValidateUserData>(
     VALIDATE_USER,
@@ -38,7 +53,10 @@ export const UserForm = () => {
 
   const onSave = () => {
     createUser({ variables: { input: data } }).then(({ data }) => {
+      console.log("wat");
+      console.log(data?.createUser);
       if (data?.createUser.errors) {
+        console.log("here!");
         validation.onSetValidationErrors(data?.createUser.errors);
       } else {
         setData(initialUser);
