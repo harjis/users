@@ -5,6 +5,7 @@ import useValidation from "../../../../hooks/useValidation";
 import { CREATE_USER, CreateUserData, CreateUserInput } from "../../mutations";
 import { User } from "../../types";
 import { GET_USERS, VALIDATE_USER, ValidateUserData } from "../../queries";
+import isEmpty from "../../../../utils/isEmpty";
 
 import styles from "./UserForm.module.css";
 
@@ -53,10 +54,10 @@ export const UserForm = () => {
 
   const onSave = () => {
     createUser({ variables: { input: data } }).then(({ data }) => {
-      console.log("wat");
-      console.log(data?.createUser);
-      if (data?.createUser.errors) {
-        console.log("here!");
+      if (
+        data?.createUser.errors !== undefined &&
+        !isEmpty(data?.createUser.errors)
+      ) {
         validation.onSetValidationErrors(data?.createUser.errors);
       } else {
         setData(initialUser);
