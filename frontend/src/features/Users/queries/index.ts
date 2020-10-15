@@ -1,12 +1,7 @@
 import { DocumentNode, gql } from "@apollo/client";
 
-
 import { Errors } from "../../../types";
-import { User } from "../../../generated/graphql";
 
-export type GetUsersData = {
-  users: User[];
-};
 // I would have thought TS to complain about implicit any but noo..
 export const GET_USERS: DocumentNode = gql`
   query GetUsers {
