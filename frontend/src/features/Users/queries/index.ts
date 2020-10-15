@@ -1,7 +1,8 @@
 import { DocumentNode, gql } from "@apollo/client";
 
-import { User } from "../types";
+
 import { Errors } from "../../../types";
+import { User } from "../../../generated/graphql";
 
 export type GetUsersData = {
   users: User[];
