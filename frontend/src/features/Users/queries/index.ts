@@ -1,6 +1,6 @@
 import { DocumentNode, gql } from "@apollo/client";
 
-import { Errors } from "../../../types";
+// These queries are only used to generate types and implementation for frontend
 
 // I would have thought TS to complain about implicit any but noo..
 export const GET_USERS: DocumentNode = gql`
@@ -14,17 +14,6 @@ export const GET_USERS: DocumentNode = gql`
   }
 `;
 
-export type ValidateUserInput = {
-  name: string;
-  age: number;
-  email: string;
-};
-export type ValidateUserData = {
-  validateUser: {
-    errors: Errors;
-    isValid: boolean;
-  };
-};
 export const VALIDATE_USER: DocumentNode = gql`
   query ValidateUser($name: String!, $age: Int!, $email: String!) {
     validateUser(name: $name, age: $age, email: $email) {

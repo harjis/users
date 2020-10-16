@@ -1,24 +1,26 @@
 import React, { useCallback, useState } from "react";
 import { debounce } from "lodash";
-import { DocumentNode } from "graphql";
-import { useLazyQuery } from "@apollo/client";
 
 import { Errors, FormattedErrors } from "../types";
+import { LazyQueryHookOptions, QueryTuple } from "@apollo/client";
 
 type ReturnType<ValidationReturnData> = {
   mergedErrors: () => FormattedErrors;
   validationData: ValidationReturnData | undefined;
   onSetValidationErrors: (errors: Errors) => void;
 };
-export default function useValidation<Data, ValidationReturnData>(
-  validationQuery: DocumentNode,
-  data: Data,
-  errorsGetter: (validationData: ValidationReturnData) => Errors
+export default function useValidation<Variables, ValidationReturnData>(
+  validationLazyQueryHook: (
+    baseOptions?: LazyQueryHookOptions<ValidationReturnData, Variables>
+  ) => QueryTuple<ValidationReturnData, Variables>,
+  data: Variables,
+  errorsGetter: (validationData: ValidationReturnData | undefined) => Errors
 ): ReturnType<ValidationReturnData> {
   const [errors, setErrors] = useState({});
-  const [validationCallback, { data: validationData }] = useLazyQuery<
-    ValidationReturnData
-  >(validationQuery);
+  const [
+    validationCallback,
+    { data: validationData },
+  ] = validationLazyQueryHook();
   // I guess this would fail if somehow some other validationQuery was given in next props
   const debouncedValidationCallback = useCallback(
     debounce(validationCallback, 500),
@@ -38,7 +40,7 @@ export default function useValidation<Data, ValidationReturnData>(
   const onSetValidationErrors = (errors: Errors) => setErrors(errors);
   // This is just :D
   const mergedErrors = (): FormattedErrors =>
-    validationData !== undefined
+    validationData !== null
       ? formatErrors({
           ...errorsGetter(validationData),
           ...errors,

@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
 
 import useValidation from "../../../../hooks/useValidation";
-import { CREATE_USER, CreateUserData, CreateUserInput } from "../../mutations";
-import { User } from "../../types";
-import { GET_USERS, VALIDATE_USER, ValidateUserData } from "../../queries";
 import isEmpty from "../../../../utils/isEmpty";
+import {
+  GetUsersDocument,
+  useCreateUserMutation,
+  useValidateUserLazyQuery,
+  ValidateUserQuery,
+  ValidateUserQueryVariables,
+} from "../../../../generated/graphql";
 
 import styles from "./UserForm.module.css";
 
-const initialUser: User = { age: 0, name: "", email: "" };
+const initialUser: ValidateUserQueryVariables = { age: 0, name: "", email: "" };
 export const UserForm = () => {
-  const [createUser, { data: mutationData }] = useMutation<
-    CreateUserData,
-    CreateUserInput
-  >(CREATE_USER, {
+  useCreateUserMutation();
+  const [createUser, { data: mutationData }] = useCreateUserMutation({
     update(cache, { data: createdUser }) {
       cache.modify({
         fields: {
           users(existingUsers = []) {
             cache.writeQuery({
-              query: GET_USERS,
+              query: GetUsersDocument,
               data: {
-                users: [...existingUsers, createdUser?.createUser.user],
+                users: [...existingUsers, createdUser?.createUser?.user],
               },
             });
           },
@@ -30,11 +31,15 @@ export const UserForm = () => {
       });
     },
   });
-  const [data, setData] = useState<User>(initialUser);
-  const validation = useValidation<User, ValidateUserData>(
-    VALIDATE_USER,
+
+  const [data, setData] = useState<ValidateUserQueryVariables>(initialUser);
+  const validation = useValidation<
+    ValidateUserQueryVariables,
+    ValidateUserQuery
+  >(
+    useValidateUserLazyQuery,
     data,
-    (validationData) => validationData.validateUser.errors
+    (validationData) => validationData?.validateUser.errors
   );
 
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +60,7 @@ export const UserForm = () => {
   const onSave = () => {
     createUser({ variables: { input: data } }).then(({ data }) => {
       if (
-        data?.createUser.errors !== undefined &&
+        data?.createUser?.errors !== undefined &&
         !isEmpty(data?.createUser.errors)
       ) {
         validation.onSetValidationErrors(data?.createUser.errors);
@@ -68,7 +73,7 @@ export const UserForm = () => {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        Create a user. isValid: {`${!mutationData?.createUser.errors}`}
+        Create a user. isValid: {`${!mutationData?.createUser?.errors}`}
       </div>
 
       <div className={styles.row}>
