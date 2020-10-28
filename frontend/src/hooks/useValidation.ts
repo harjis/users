@@ -4,10 +4,11 @@ import { debounce } from "lodash";
 import { Errors, FormattedErrors } from "../types";
 import { LazyQueryHookOptions, QueryTuple } from "@apollo/client";
 
-type ReturnType<ValidationReturnData> = {
+export type ReturnType<ValidationReturnData> = {
   mergedErrors: () => FormattedErrors;
   validationData: ValidationReturnData | undefined;
   onSetValidationErrors: (errors: Errors) => void;
+  isValid: () => boolean;
 };
 export default function useValidation<Variables, ValidationReturnData>(
   validationLazyQueryHook: (
@@ -49,7 +50,9 @@ export default function useValidation<Variables, ValidationReturnData>(
           ...errors,
         });
 
-  return { validationData, mergedErrors, onSetValidationErrors };
+  const isValid = () => Object.keys(mergedErrors()).length === 0;
+
+  return { validationData, mergedErrors, onSetValidationErrors, isValid };
 }
 
 const formatErrors = (errors: Errors): FormattedErrors =>
