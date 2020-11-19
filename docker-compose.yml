@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   gateway:
     depends_on:
@@ -19,7 +19,7 @@ services:
     ports:
       - 3002:3002
   postgres:
-    image: 'postgres:latest'
+    image: "postgres:latest"
     volumes:
       - ./backend/tmp/db:/var/lib/postgresql/data
     environment:
@@ -44,5 +44,4 @@ services:
     build:
       context: ./frontend
     volumes:
-      - /frontend/node_modules
-      - ./frontend:/frontend
+      - ./frontend/src:/frontend/src
