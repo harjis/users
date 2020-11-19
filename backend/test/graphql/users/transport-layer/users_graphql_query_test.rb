@@ -26,8 +26,8 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
 
   test "should validate valid user" do
     query = <<-GRAPHQL
-      query ValidateUser($name: String!, $age: Int!, $email: String!) {
-        validateUser(name: $name, age: $age, email: $email) {
+      query ValidateUser($attributes: UserAttributes!) {
+        validateUser(attributes: $attributes) {
           errors
           isValid
         }
@@ -35,9 +35,11 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
     GRAPHQL
     variables = <<-GRAPHQL
       {
-        "name": "wat",
-        "age": 10,
-        "email": "aaa"
+        "attributes": {
+          "name": "wat",
+          "age": 10,
+          "email": "aaa"
+        }
       }
     GRAPHQL
 
@@ -51,8 +53,8 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
 
   test "should validate invalid user" do
     query = <<-GRAPHQL
-      query ValidateUser($name: String!, $age: Int!, $email: String!) {
-        validateUser(name: $name, age: $age, email: $email) {
+      query ValidateUser($attributes: UserAttributes!) {
+        validateUser(attributes: $attributes) {
           errors
           isValid
         }
@@ -60,9 +62,11 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
     GRAPHQL
     variables = <<-GRAPHQL
       {
-        "name": "wat",
-        "age": 10,
-        "email": ""
+        "attributes": {
+          "name": "wat",
+          "age": 10,
+          "email": ""
+        }
       }
     GRAPHQL
 

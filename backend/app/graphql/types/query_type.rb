@@ -8,18 +8,15 @@ module Types
 
     field :validate_user, ValidationType, null: false do
       description "Validates a user"
-      # Hmm... why can't I use -> argument :user, UserMutationType, required: true
-      argument :name, String, required: true
-      argument :age, Int, required: true
-      argument :email, String, required: true
+      argument :attributes, Types::UserAttributes, required: true
     end
 
     def users
       User.all
     end
 
-    def validate_user(arguments)
-      @user = User.new(arguments)
+    def validate_user(attributes:)
+      @user = User.new(attributes.to_h)
 
       if @user.valid?
         { isValid: true, errors: {} }
