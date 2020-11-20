@@ -16,8 +16,8 @@ module UserQueries
 
   def self.validate
     query = <<-GRAPHQL
-      query Validate($attributes: UserAttributes!, $modelType: String!) {
-        validate(attributes: $attributes, modelType: $modelType) {
+      query ValidateUser($attributes: UserAttributes!) {
+        validateUser(attributes: $attributes) {
           errors
           isValid
         }
