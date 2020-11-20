@@ -2,26 +2,22 @@ module Types
   class QueryType < Types::BaseObject
     description "The query root of this schema"
 
-    field :users, [UserType], null: false do
-      description "Find all users"
-    end
+    field :users, resolver: Queries::Users
 
-    field :validate_user, ValidationType, null: false do
+    field :validate, ValidationType, null: false do
       description "Validates a user"
       argument :attributes, Types::UserAttributes, required: true
+      argument :modelType, String, required: true
     end
 
-    def users
-      User.all
-    end
+    def validate(attributes:, modelType:)
+      clazz = modelType.capitalize.constantize
+      @model = clazz.new(attributes.to_h)
 
-    def validate_user(attributes:)
-      @user = User.new(attributes.to_h)
-
-      if @user.valid?
+      if @model.valid?
         { isValid: true, errors: {} }
       else
-        { isValid: false, errors: @user.errors }
+        { isValid: false, errors: @model.errors }
       end
     end
   end

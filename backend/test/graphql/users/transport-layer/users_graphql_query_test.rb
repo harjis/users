@@ -6,16 +6,7 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
   end
 
   test "should get all users" do
-    query = <<-GRAPHQL
-      query GetUsers {
-        users {
-          id
-          age
-          name
-          email
-        }
-      }
-    GRAPHQL
+    query = UserQueries.get_users
 
     post api_graphql_url, params: { query: query }
     json = JSON.parse(@response.body)
@@ -25,56 +16,34 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
   end
 
   test "should validate valid user" do
-    query = <<-GRAPHQL
-      query ValidateUser($attributes: UserAttributes!) {
-        validateUser(attributes: $attributes) {
-          errors
-          isValid
-        }
-      }
-    GRAPHQL
-    variables = <<-GRAPHQL
-      {
-        "attributes": {
-          "name": "wat",
-          "age": 10,
-          "email": "aaa"
-        }
-      }
-    GRAPHQL
+    query = UserQueries.validate
+    variables = UserQueries.validate_attributes(attributes: {
+      name: "wat",
+      age: 10,
+      email: "aaa"
+    })
 
     post api_graphql_url, params: { query: query, variables: variables }
     json = JSON.parse(@response.body)
 
     assert_response :success
-    assert_equal true, json["data"]["validateUser"]["isValid"]
-    assert_empty json["data"]["validateUser"]["errors"]
+    assert_equal true, json["data"]["validate"]["isValid"]
+    assert_empty json["data"]["validate"]["errors"]
   end
 
   test "should validate invalid user" do
-    query = <<-GRAPHQL
-      query ValidateUser($attributes: UserAttributes!) {
-        validateUser(attributes: $attributes) {
-          errors
-          isValid
-        }
-      }
-    GRAPHQL
-    variables = <<-GRAPHQL
-      {
-        "attributes": {
-          "name": "wat",
-          "age": 10,
-          "email": ""
-        }
-      }
-    GRAPHQL
+    query = UserQueries.validate
+    variables = UserQueries.validate_attributes(attributes: {
+      name: "wat",
+      age: 10,
+      email: ""
+    })
 
     post api_graphql_url, params: { query: query, variables: variables }
     json = JSON.parse(@response.body)
 
     assert_response :success
-    assert_equal false, json["data"]["validateUser"]["isValid"]
-    assert_not_empty json["data"]["validateUser"]["errors"]
+    assert_equal false, json["data"]["validate"]["isValid"]
+    assert_not_empty json["data"]["validate"]["errors"]
   end
 end
