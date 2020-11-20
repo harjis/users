@@ -4,7 +4,7 @@ module Mutations
     argument :age, Int, required: true
     argument :email, String, required: true
 
-    field :user, Types::UserType, null: true
+    field :user, Types::User, null: true
     field :errors, GraphQL::Types::JSON, null: false
 
     def resolve(attributes)

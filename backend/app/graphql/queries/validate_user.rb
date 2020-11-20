@@ -2,7 +2,7 @@ module Queries
   class ValidateUser < Queries::BaseQuery
     description "Validates a user"
 
-    type Types::ValidationResultType, null: false
+    type Types::UserValidation, null: false
 
     argument :attributes, Types::UserAttributes, required: true
 
@@ -12,7 +12,7 @@ module Queries
       if @model.valid?
         { isValid: true, errors: {} }
       else
-        { isValid: false, errors: @model.errors }
+        { isValid: false, errors: @model.errors.messages }
       end
     end
   end

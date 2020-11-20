@@ -18,8 +18,12 @@ module UserQueries
     query = <<-GRAPHQL
       query ValidateUser($attributes: UserAttributes!) {
         validateUser(attributes: $attributes) {
-          errors
           isValid
+          errors {
+            age
+            name
+            email
+          }
         }
       }
     GRAPHQL

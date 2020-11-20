@@ -1,20 +1,22 @@
 module Types
-  # class UserInterface < Types::BaseInterface
-  #   field :id, ID, null: false
-  #   field :name, String, null: false
-  #   field :age, Integer, null: false
-  #   field :email, String, null: false
-  #   field :created_at, GraphQL::Types::ISO8601DateTime, null: false
-  #   field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-  # end
-
-  class UserType < Types::BaseObject
+  class User < Types::BaseObject
     field :id, ID, null: false
     field :name, String, null: false
     field :age, Integer, null: false
     field :email, String, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+  end
+
+  class UserValidationErrors < Types::BaseObject
+    field :name, [String], null: true
+    field :age, [String], null: true
+    field :email, [String], null: true
+  end
+
+  class UserValidation < Types::BaseObject
+    implements Types::Validatable
+    field :errors, UserValidationErrors, null: false
   end
 
   class UserAttributes < BaseInputObject

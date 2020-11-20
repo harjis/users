@@ -28,7 +28,9 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal true, json["data"]["validateUser"]["isValid"]
-    assert_empty json["data"]["validateUser"]["errors"]
+    assert_nil json["data"]["validateUser"]["errors"]["name"]
+    assert_nil json["data"]["validateUser"]["errors"]["age"]
+    assert_nil json["data"]["validateUser"]["errors"]["email"]
   end
 
   test "should validate invalid user" do
