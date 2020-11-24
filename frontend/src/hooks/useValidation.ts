@@ -1,55 +1,58 @@
 import React, { useCallback, useState } from "react";
-import AwesomeDebouncePromise from "awesome-debounce-promise";
+import { debounce } from "lodash";
 
-import { Errors, FormattedErrors, ValidationResult } from "../types";
+import { Errors, FormattedErrors } from "../types";
+import { LazyQueryHookOptions, QueryTuple } from "@apollo/client";
 
-type ValidationCallback<T> = (data: T) => Promise<ValidationResult>;
-type State = { isValid: boolean; errors: FormattedErrors };
-type ReturnType = State & { onSetValidationErrors: (errors: Errors) => void };
-const initialState: State = { isValid: false, errors: {} };
-export default function useValidation<T>(
-  validationCallback: ValidationCallback<T>,
-  data: T
-): ReturnType {
-  const [state, setValidationResult] = useState<State>(initialState);
+export type ReturnType<ValidationReturnData> = {
+  mergedErrors: () => FormattedErrors;
+  validationData: ValidationReturnData | undefined;
+  onSetValidationErrors: (errors: Errors) => void;
+  isValid: () => boolean;
+};
+export default function useValidation<Variables, ValidationReturnData>(
+  validationLazyQueryHook: (
+    baseOptions?: LazyQueryHookOptions<ValidationReturnData, Variables>
+  ) => QueryTuple<ValidationReturnData, Variables>,
+  data: Variables,
+  errorsGetter: (validationData: ValidationReturnData | undefined) => Errors
+): ReturnType<ValidationReturnData> {
+  const [errors, setErrors] = useState({});
+  const [
+    validationCallback,
+    { data: validationData },
+  ] = validationLazyQueryHook();
+  // I guess this would fail if somehow some other validationQuery was given in next props
   const debouncedValidationCallback = useCallback(
-    AwesomeDebouncePromise(validationCallback, 500),
+    debounce(validationCallback, 500),
     []
   );
 
   React.useEffect(() => {
     let isMounted = true;
-    const validate = (): void => {
-      debouncedValidationCallback(data)
-        .then((_validationResult) => {
-          const validationResult = _validationResult as ValidationResult;
-          if (isMounted) {
-            setValidationResult({
-              isValid: validationResult.isValid,
-              errors: formatErrors(validationResult.errors),
-            });
-          }
-        })
-        .catch((e) => {
-          if (isMounted) {
-            console.log("Figure out a proper way to communicate this to user");
-          }
-        });
-    };
-
-    validate();
+    if (isMounted) {
+      debouncedValidationCallback({ variables: data });
+    }
     return (): void => {
       isMounted = false;
     };
   }, [debouncedValidationCallback, data]);
 
-  const onSetValidationErrors = (errors: Errors) =>
-    setValidationResult((prevState) => ({
-      ...prevState,
-      errors: formatErrors(errors),
-    }));
+  const onSetValidationErrors = (errors: Errors) => setErrors(errors);
+  // This is just :D
+  const mergedErrors = (): FormattedErrors =>
+    validationData !== null
+      ? formatErrors({
+          ...errorsGetter(validationData),
+          ...errors,
+        })
+      : formatErrors({
+          ...errors,
+        });
 
-  return { ...state, onSetValidationErrors };
+  const isValid = () => Object.keys(mergedErrors()).length === 0;
+
+  return { validationData, mergedErrors, onSetValidationErrors, isValid };
 }
 
 const formatErrors = (errors: Errors): FormattedErrors =>

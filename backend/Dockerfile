@@ -1,6 +1,7 @@
 FROM ruby:2.6.3
 RUN mkdir /myapp
 WORKDIR /myapp
+ENV RAILS_ROOT /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN gem install bundler rails

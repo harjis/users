@@ -1,16 +1,25 @@
-version: '3'
+version: "3"
 services:
   gateway:
     depends_on:
       - backend
       - frontend
+      - graphiql
     restart: always
     build:
       context: ./gateway
     ports:
       - 80:80
+  graphiql:
+    depends_on:
+      - backend
+    restart: always
+    build:
+      context: ./graphiql
+    ports:
+      - 3002:3002
   postgres:
-    image: 'postgres:latest'
+    image: "postgres:latest"
     volumes:
       - ./backend/tmp/db:/var/lib/postgresql/data
     environment:
@@ -27,11 +36,12 @@ services:
       - PGDATABASE_DEVELOPMENT=users_development
       - PGDATABASE_TEST=users_test
       - PGDATABASE_PRODUCTION=users_production
+    volumes:
+      - ./backend:/myapp
   frontend:
     # This was new: https://github.com/facebook/create-react-app/issues/8688
     stdin_open: true
     build:
       context: ./frontend
     volumes:
-      - /frontend/node_modules
-      - ./frontend:/frontend
+      - ./frontend/src:/frontend/src

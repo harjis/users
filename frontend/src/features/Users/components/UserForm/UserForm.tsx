@@ -1,50 +1,44 @@
 import React from "react";
 
-import useForm from "../../../../hooks/useForm";
-import { createUser, validateUser } from "../../api";
-import { User } from "../../types";
-
 import styles from "./UserForm.module.css";
+import { useCreateUser } from "../../hooks/useCreateUser";
 
-const initialUser: User = { id: null, age: 0, name: "", email: "" };
 export const UserForm = () => {
-  const { data, errors, isValid, onSave, onSetData } = useForm(
-    createUser,
-    validateUser,
-    initialUser
-  );
-  const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) =>
-    onSetData("name", event.currentTarget.value);
-  const onChangeAge = (event: React.ChangeEvent<HTMLInputElement>) =>
-    onSetData("age", event.currentTarget.value);
-  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
-    onSetData("email", event.currentTarget.value);
-
+  const {
+    onChangeAge,
+    onChangeEmail,
+    onChangeName,
+    onSave,
+    user,
+    validation,
+  } = useCreateUser();
   return (
     <div className={styles.container}>
-      <div className={styles.row}>Create a user. isValid: {`${isValid}`}</div>
+      <div className={styles.row}>
+        Create a user. isValid: {`${validation.isValid()}`}
+      </div>
 
       <div className={styles.row}>
         <div>Name:</div>
         <div>
-          <input type="text" value={data.name} onChange={onChangeName} />
-          {errors.name}
+          <input type="text" value={user.name} onChange={onChangeName} />
+          {validation.mergedErrors().name}
         </div>
       </div>
 
       <div className={styles.row}>
         <div>Age:</div>
         <div>
-          <input type="text" value={data.age} onChange={onChangeAge} />
-          {errors.age}
+          <input type="text" value={user.age} onChange={onChangeAge} />
+          {validation.mergedErrors().age}
         </div>
       </div>
 
       <div className={styles.row}>
         <div>Email:</div>
         <div>
-          <input type="text" value={data.email} onChange={onChangeEmail} />
-          {errors.email}
+          <input type="text" value={user.email} onChange={onChangeEmail} />
+          {validation.mergedErrors().email}
         </div>
       </div>
 

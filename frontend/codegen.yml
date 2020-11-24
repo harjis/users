@@ -1,0 +1,12 @@
+overwrite: true
+schema: "/Users/harjukallio/Sites/microservices/users/backend/schema.json"
+documents: "src/**/!(*.d).{ts,tsx}"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
