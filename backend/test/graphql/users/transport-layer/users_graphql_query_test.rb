@@ -17,7 +17,7 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
 
   test "should validate valid user" do
     query = UserQueries.validate
-    variables = UserQueries.validate_attributes(attributes: {
+    variables = UserQueries.validate_attributes_as_string(attributes: {
       name: "wat",
       age: 10,
       email: "aaa"
@@ -35,7 +35,7 @@ class UsersGraphqlQueryTest < ActionDispatch::IntegrationTest
 
   test "should validate invalid user" do
     query = UserQueries.validate
-    variables = UserQueries.validate_attributes(attributes: {
+    variables = UserQueries.validate_attributes_as_string(attributes: {
       name: "wat",
       age: 10,
       email: ""

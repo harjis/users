@@ -32,6 +32,10 @@ module UserQueries
   end
 
   def self.validate_attributes(attributes:)
-    JSON.generate({ attributes: attributes, modelType: "user" })
+    { attributes: attributes, modelType: "user" }
+  end
+
+  def self.validate_attributes_as_string(attributes:)
+    JSON.generate(validate_attributes(attributes: attributes))
   end
 end
