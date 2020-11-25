@@ -1,16 +1,14 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import styles from "./App.module.css";
-import { UserForm, UsersTable } from "./features/Users";
+import { AppWithRouterAccess } from "./AppWithRouterAccess";
 
-function App() {
+const App = () => {
   return (
-    <div className={styles.container}>
-      <UserForm />
-      <hr />
-      <UsersTable />
-    </div>
+    <Router>
+      <AppWithRouterAccess />
+    </Router>
   );
-}
+};
 
 export default App;
