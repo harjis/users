@@ -1,14 +1,11 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
 
-export const Home = () => {
+import styles from "./Frontpage.module.css";
+export const Frontpage = () => {
   const { oktaAuth, authState } = useOktaAuth();
-  // const history = useHistory();
-
   const login = async () => {
-    await oktaAuth.signInWithRedirect({ originalUri: "/" });
-    // history.push("/login");
+    await oktaAuth.signInWithRedirect({ originalUri: "/users" });
   };
   const logout = async () => oktaAuth.signOut("/");
 
@@ -22,13 +19,5 @@ export const Home = () => {
     <button onClick={login}>Login</button>
   );
 
-  return (
-    <div>
-      <Link to="/">Home</Link>
-      <br />
-      <Link to="/protected">Protected</Link>
-      <br />
-      {button}
-    </div>
-  );
+  return <div className={styles.container}>{button}</div>;
 };

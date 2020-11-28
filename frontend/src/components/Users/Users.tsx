@@ -2,9 +2,9 @@ import React from "react";
 
 import { UserForm, UsersTable } from "../../features/Users";
 
-import styles from "./Protected.module.css";
+import styles from "./Users.module.css";
 
-export const Protected = () => {
+export const Users = () => {
   return (
     <div className={styles.container}>
       <UserForm />
