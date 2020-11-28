@@ -9,7 +9,7 @@ import { Protected } from "./components/Protected/Protected";
 const issuer = "https://dev-556018.okta.com/oauth2/default";
 const oktaAuth = new OktaAuth({
   issuer,
-  clientId: "0oa6hyhh58eAcDr0f357",
+  clientId: "0oa6jw73iiZlcYvor357",
   redirectUri: window.location.origin + "/login/callback",
 });
 
