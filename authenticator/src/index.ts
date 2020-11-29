@@ -4,14 +4,9 @@ import bodyParser from "body-parser";
 
 const app = express();
 
+app.use("/", proxy("backend:3000"));
 app.use(bodyParser.json());
-app.set("port", 5000);
 
-// app.get("/", proxy('localhost:3000/api/users'));
-app.get("/", (req, res) => {
-  res.send("Welcome to Node Babel");
-});
-
-app.listen(5000, "172.18.0.4", () => {
+app.listen(5000, () => {
   console.log(`app is listening to port 5000`);
 });
