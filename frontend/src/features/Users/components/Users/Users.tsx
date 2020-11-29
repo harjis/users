@@ -1,6 +1,7 @@
 import React from "react";
 
-import { UserForm, UsersTable } from "../../features/Users";
+import { UserForm } from "../UserForm/UserForm";
+import { UsersTable } from "../UsersTable/UsersTable";
 
 import styles from "./Users.module.css";
 

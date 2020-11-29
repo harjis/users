@@ -7,17 +7,15 @@ export const Frontpage = () => {
   const login = async () => {
     await oktaAuth.signInWithRedirect({ originalUri: "/users" });
   };
-  const logout = async () => oktaAuth.signOut("/");
 
   if (authState.isPending) {
     return <div>Loading...</div>;
   }
 
-  const button = authState.isAuthenticated ? (
-    <button onClick={logout}>Logout</button>
-  ) : (
-    <button onClick={login}>Login</button>
+  return (
+    <div className={styles.container}>
+      Welcome!
+      <button onClick={login}>Login</button>
+    </div>
   );
-
-  return <div className={styles.container}>{button}</div>;
 };

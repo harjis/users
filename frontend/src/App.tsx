@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route } from "react-router-dom";
-import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
+import { Security, LoginCallback } from "@okta/okta-react";
 import { OktaAuth } from "@okta/okta-auth-js";
 
 import { Frontpage } from "./components/Frontpage/Frontpage";
-import { Users } from "./components/Users/Users";
+import { Users } from "./features/Users/components/Users/Users";
+import { SecureRouteWithLogout } from "./components/SecureRouteWithLogout/SecureRouteWithLogout";
 
 const issuer = "https://dev-556018.okta.com/oauth2/default";
 const oktaAuth = new OktaAuth({
@@ -19,7 +20,7 @@ const App = () => {
     <Router>
       <Security oktaAuth={oktaAuth}>
         <Route path="/" exact={true} component={Frontpage} />
-        <SecureRoute path="/protected" component={Users} />
+        <SecureRouteWithLogout path="/users" component={Users} />
         <Route path="/login/callback" component={LoginCallback} />
       </Security>
     </Router>
