@@ -2,13 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { createProxyMiddleware } from "http-proxy-middleware";
-declare module "@okta/jwt-verifier";
 import OktaJwtVerifier from "@okta/jwt-verifier";
-
-const oktaJwtVerifier = new OktaJwtVerifier({
-  clientId: "0oa6jw73iiZlcYvor357",
-  issuer: "https://dev-556018.okta.com/oauth2/default",
-});
+//
+// const oktaJwtVerifier = new OktaJwtVerifier({
+//   clientId: "0oa6jw73iiZlcYvor357",
+//   issuer: "https://dev-556018.okta.com/oauth2/default",
+// });
 
 const app = express();
 
