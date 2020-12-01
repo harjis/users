@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR /app
+WORKDIR /authenticator
 COPY package.json .
 RUN yarn install
 COPY . .
