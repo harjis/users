@@ -4,9 +4,17 @@ import cors from "cors";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import OktaJwtVerifier from "@okta/jwt-verifier";
 
+import {
+  backendPort,
+  backendHost,
+  oktaClientId,
+  oktaIssuer,
+  port,
+} from "./env";
+
 const oktaJwtVerifier = new OktaJwtVerifier({
-  clientId: "0oa6jw73iiZlcYvor357",
-  issuer: "https://dev-556018.okta.com/oauth2/default",
+  clientId: oktaClientId,
+  issuer: oktaIssuer,
 });
 
 const app = express();
@@ -25,14 +33,12 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.use(
-  "/",
-  createProxyMiddleware({ target: "http://backend:3000", changeOrigin: true })
-);
+const target = `http://${backendHost}:${backendPort}`;
+app.use("/", createProxyMiddleware({ target, changeOrigin: true }));
 
 // This needs to be after all proxys. If it is before all POST requests do not work.
 app.use(bodyParser.json());
 
-app.listen(5000, () => {
-  console.log(`app is listening to port 5000`);
+app.listen(port, () => {
+  console.log(`app is listening to port ${port}`);
 });

@@ -1,6 +1,5 @@
 class Store {
   private accessToken: string | null = null;
-  constructor() {}
 
   setAccessToken(token: string | null) {
     this.accessToken = token;
@@ -9,7 +8,7 @@ class Store {
   secureGetAccessToken(): string {
     const token = this.accessToken;
     if (token === null) {
-      throw "Access token has not been set!";
+      throw new Error("Access token has not been set!");
     }
     return token;
   }

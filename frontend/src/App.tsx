@@ -7,11 +7,11 @@ import { OktaAuth } from "@okta/okta-auth-js";
 import { Frontpage } from "./components/Frontpage/Frontpage";
 import { Users } from "./features/Users/components/Users/Users";
 import { SecureRouteWithLogout } from "./components/SecureRouteWithLogout/SecureRouteWithLogout";
+import { oktaClientId, oktaIssuer } from "./env";
 
-const issuer = "https://dev-556018.okta.com/oauth2/default";
 const oktaAuth = new OktaAuth({
-  issuer,
-  clientId: "0oa6jw73iiZlcYvor357",
+  issuer: oktaIssuer,
+  clientId: oktaClientId,
   redirectUri: window.location.origin + "/login/callback",
 });
 
