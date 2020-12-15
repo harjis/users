@@ -50,5 +50,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << "backend"
+  # TODO This should not be done
+  config.hosts.clear
 end
