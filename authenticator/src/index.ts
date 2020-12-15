@@ -4,13 +4,7 @@ import cors from "cors";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import OktaJwtVerifier from "@okta/jwt-verifier";
 
-import {
-  backendPort,
-  backendHost,
-  oktaClientId,
-  oktaIssuer,
-  port,
-} from "./env";
+import { backendPort, backendHost, oktaClientId, oktaIssuer } from "./env";
 
 const oktaJwtVerifier = new OktaJwtVerifier({
   clientId: oktaClientId,
@@ -39,6 +33,6 @@ app.use("/", createProxyMiddleware({ target, changeOrigin: true }));
 // This needs to be after all proxys. If it is before all POST requests do not work.
 app.use(bodyParser.json());
 
-app.listen(port, () => {
-  console.log(`app is listening to port ${port}`);
+app.listen(5000, () => {
+  console.log(`app is listening to port 5000`);
 });

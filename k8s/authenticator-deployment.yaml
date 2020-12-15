@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authenticator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: authenticator-server
+  template:
+    metadata:
+      labels:
+        component: authenticator-server
+    spec:
+      containers:
+        - name: authenticator
+          image: d0rka/users-authenticator
+          ports:
+            - containerPort: 5000
+          env:
+            - name: BACKEND_HOST
+              value: backend-cluster-ip-service
+            - name: BACKEND_PORT
+              value: '3000'
+            - name: OKTA_CLIENTID
+              value: 0oa6jw73iiZlcYvor357
+            - name: OKTA_ISSUER
+              value: https://dev-556018.okta.com/oauth2/default

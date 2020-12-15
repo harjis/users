@@ -1,10 +1,3 @@
-let port: number;
-if (!process.env.PORT) {
-  throw new Error("Please define: PORT");
-} else {
-  port = parseInt(process.env.PORT);
-}
-
 let backendHost: string;
 if (!process.env.BACKEND_HOST) {
   throw new Error("Please define: BACKEND_HOST");
@@ -33,4 +26,4 @@ if (!process.env.OKTA_ISSUER) {
   oktaIssuer = process.env.OKTA_ISSUER;
 }
 
-export { port, backendHost, backendPort, oktaClientId, oktaIssuer };
+export { backendHost, backendPort, oktaClientId, oktaIssuer };

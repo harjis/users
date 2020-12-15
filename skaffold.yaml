@@ -1,0 +1,32 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+build:
+  artifacts:
+    -
+      image: d0rka/users-authenticator
+      context: authenticator
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          -
+            src: 'src/*'
+            dest: .
+    -
+      image: d0rka/users-frontend
+      context: frontend
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          -
+            src: 'src/*'
+            dest: .
+    -
+      image: d0rka/users-backend
+      context: backend
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        infer:
+          - '*.rb'

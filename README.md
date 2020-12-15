@@ -1,17 +1,24 @@
-How to run:
+# Setup
 
+1. Create postgress secret and enable ingress
 ```shell script
-docker-compose up
+kubectl create secret generic pgpassword --from-literal POSTGRES_PASSWORD=my_pgpassword
+minikube addons enable ingress
 ```
 
-In other shell:
+2. Apply persistent volume claim. This is done separately so that skaffold dev doesn't clean up db on restarts
 ```shell script
-docker-compose run backend bundle exec rake db:setup
+./db-helpers/pvc-apply.sh
 ```
 
-Navigate to `localhost:80` with browser
-
-How to reset db:
+3. Start dev
 ```shell script
-docker-compose run backend bundle exec rake db:reset
+skaffold dev
 ```
+
+4. Create db's and migrate
+```shell script
+./db-helpers/create-db.sh
+./db-helpers/migrate.sh
+```
+
