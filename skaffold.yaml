@@ -3,16 +3,6 @@ kind: Config
 build:
   artifacts:
     -
-      image: d0rka/users-authenticator
-      context: authenticator
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          -
-            src: 'src/*'
-            dest: .
-    -
       image: d0rka/users-frontend
       context: frontend
       docker:
