@@ -8,7 +8,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-seed
-          image: d0rka/users-backend-rails
+          image: d0rka/users-backend
           command: ['bundle', 'exec', 'rake']
           args: ['db:seed']
           env:

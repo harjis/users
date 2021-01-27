@@ -8,7 +8,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-migrate
-          image: d0rka/users-backend-rails
+          image: d0rka/users-backend
           command: ['bundle', 'exec', 'rake']
           args: ['db:migrate']
           env:
