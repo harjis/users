@@ -7,7 +7,10 @@ docker push d0rka/users-frontend:latest
 docker push d0rka/users-backend:$SHA
 docker push d0rka/users-frontend:$SHA
 
+rm -f k8s/ingress-service.yaml
+
 kubectl apply -f k8s
+kubectl apply -f k8s-ssl
 kubectl set image deployments/backend-deployment backend=d0rka/users-backend:$SHA
 kubectl set image deployments/frontend-deployment frontend=d0rka/users-frontend:$SHA
 
