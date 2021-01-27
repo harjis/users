@@ -1,28 +1,30 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Route } from "react-router-dom";
-import { Security, LoginCallback } from "@okta/okta-react";
-import { OktaAuth } from "@okta/okta-auth-js";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
-import { Frontpage } from "./components/Frontpage/Frontpage";
-import { Users } from "./features/Users/components/Users/Users";
-import { SecureRouteWithLogout } from "./components/SecureRouteWithLogout/SecureRouteWithLogout";
-import { oktaClientId, oktaIssuer } from "./env";
+import { Users } from "./features/Users";
+import { Header } from "./components/Header/Header";
 
-const oktaAuth = new OktaAuth({
-  issuer: oktaIssuer,
-  clientId: oktaClientId,
-  redirectUri: window.location.origin + "/login/callback",
-});
+import styles from "./App.module.css";
 
 const App = () => {
   return (
     <Router>
-      <Security oktaAuth={oktaAuth}>
-        <Route path="/" exact={true} component={Frontpage} />
-        <SecureRouteWithLogout path="/users" component={Users} />
-        <Route path="/login/callback" component={LoginCallback} />
-      </Security>
+      <div className={styles.container}>
+        <div>
+          <Header
+            leftSideComponents={<Link to="/users">Users</Link>}
+            rightSideComponents={[
+              <button
+                key="logout-button"
+                onClick={() => console.log("implement me")}
+              >
+                Logout
+              </button>,
+            ]}
+          />
+        </div>
+        <Route path="/" exact={true} component={Users} />
+      </div>
     </Router>
   );
 };
