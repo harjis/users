@@ -12,6 +12,7 @@ spec:
       hosts:
         - harjukallio.club
         - www.harjukallio.club
+        - users.harjukallio.club
       secretName: harjukallio-club
   rules:
     -
@@ -30,6 +31,20 @@ spec:
               servicePort: 3000
     -
       host: www.harjukallio.club
+      http:
+        paths:
+          -
+            path: /
+            backend:
+              serviceName: frontend-cluster-ip-service
+              servicePort: 3001
+          -
+            path: /api/
+            backend:
+              serviceName: backend-cluster-ip-service
+              servicePort: 3000
+    -
+      host: users.harjukallio.club
       http:
         paths:
           -
