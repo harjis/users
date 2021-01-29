@@ -1,4 +1,4 @@
-# Setup
+# Local Setup
 
 1. Create postgress secret and enable ingress
 ```shell script
@@ -24,3 +24,9 @@ skaffold dev
 ./db-helpers/migrate.sh
 ```
 
+#GCP Setup
+
+```shell script
+helm repo add harjis-charts https://harjis.github.io/helm-charts/
+helm install auth-service harjis-charts/authentication-service -f auth_values.yaml
+```
