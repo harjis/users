@@ -1,12 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
+import styles from "./MainApp.module.css";
+
 import { Users } from "./features/Users";
 import { Header } from "./components/Header/Header";
+import { setAccessToken } from "./stores/AuthStore";
 
-import styles from "./App.module.css";
-
-const App = () => {
+type PropsFromAuthenticator = {
+  accessToken: string;
+  logout: () => Promise<void>;
+};
+const MainApp: React.FC<PropsFromAuthenticator> = (props) => {
+  setAccessToken(props.accessToken);
   return (
     <Router>
       <div className={styles.container}>
@@ -14,10 +20,7 @@ const App = () => {
           <Header
             leftSideComponents={<Link to="/users">Users</Link>}
             rightSideComponents={[
-              <button
-                key="logout-button"
-                onClick={() => console.log("implement me")}
-              >
+              <button key="logout-button" onClick={props.logout}>
                 Logout
               </button>,
             ]}
@@ -28,4 +31,4 @@ const App = () => {
     </Router>
   );
 };
-export default App;
+export default MainApp;

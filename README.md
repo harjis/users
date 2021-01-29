@@ -3,6 +3,8 @@
 1. Create postgress secret and enable ingress
 ```shell script
 kubectl create secret generic pgpassword --from-literal POSTGRES_PASSWORD=my_pgpassword
+kubectl create secret generic oktaissuer --from-literal OKTA_ISSUER=issuer_here
+kubectl create secret generic oktaclientid --from-literal OKTA_CLIENTID=id_here
 minikube addons enable ingress
 ```
 
