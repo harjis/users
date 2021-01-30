@@ -8,6 +8,7 @@ docker push d0rka/users-backend:$SHA
 docker push d0rka/users-frontend:$SHA
 
 rm -f k8s/ingress-service.yaml
+rm -f k8s/backend-deployment.yaml
 
 kubectl apply -f k8s
 kubectl apply -f k8s-ssl

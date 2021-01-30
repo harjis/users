@@ -19,7 +19,7 @@ spec:
             - containerPort: 3000
           env:
             - name: PGHOST
-              value: postgres-cluster-ip-service
+              value: 127.0.0.1
             - name: PGUSER
               value: postgres
             - name: POSTGRES_PASSWORD
@@ -33,3 +33,22 @@ spec:
               value: users_test
             - name: PGDATABASE_PRODUCTION
               value: users_production
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.14
+          command:
+            [
+              "/cloud_sql_proxy",
+              "-instances=users-303013:europe-north1:my-instance=tcp:5432",
+              "-credential_file=/secrets/cloudsql/credentials.json",
+            ]
+          securityContext:
+            runAsUser: 2 # non-root user
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: sql-sa
