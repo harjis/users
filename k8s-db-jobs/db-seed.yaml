@@ -34,8 +34,9 @@ spec:
           volumeMounts:
             - name: tmp-pod
               mountPath: /tmp/pod
-        - name: cloud-sql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.17
+        -
+          name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.14
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -45,7 +46,8 @@ spec:
               wait $CHILD_PID
               if [[ -f "/tmp/pod/main-terminated" ]]; then exit 0; echo "Job completed. Exiting..."; fi
           securityContext:
-            runAsNonRoot: true
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/

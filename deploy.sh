@@ -9,6 +9,8 @@ docker push d0rka/users-frontend:$SHA
 
 rm -f k8s/ingress-service.yaml
 rm -f k8s/backend-deployment.yaml
+rm -f k8s/postgres-deployment.yaml
+rm -f k8s/postgres-cluster-ip-service.yaml
 
 kubectl apply -f k8s
 kubectl apply -f k8s-production
