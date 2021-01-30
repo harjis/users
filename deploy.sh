@@ -11,7 +11,7 @@ rm -f k8s/ingress-service.yaml
 rm -f k8s/backend-deployment.yaml
 
 kubectl apply -f k8s
-kubectl apply -f k8s-ssl
+kubectl apply -f k8s-production
 kubectl set image deployments/backend-deployment backend=d0rka/users-backend:$SHA
 kubectl set image deployments/frontend-deployment frontend=d0rka/users-frontend:$SHA
 
