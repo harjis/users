@@ -33,20 +33,17 @@ spec:
               value: users_test
             - name: PGDATABASE_PRODUCTION
               value: users_production
-        - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.14
+        - name: cloud-sql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.17
           command:
-            [
-              "/cloud_sql_proxy",
-              "-instances=users-303013:europe-north1:my-instance=tcp:5432",
-              "-credential_file=/secrets/cloudsql/credentials.json",
-            ]
+            - "/cloud_sql_proxy"
+            - "-instances=users-303013:europe-north1:my-instance=tcp:5432",
+            - "-credential_file=/secrets/service_account.json"
           securityContext:
-            runAsUser: 2 # non-root user
-            allowPrivilegeEscalation: false
+            runAsNonRoot: true
           volumeMounts:
             - name: cloudsql-instance-credentials
-              mountPath: /secrets/cloudsql
+              mountPath: /secrets/
               readOnly: true
       volumes:
         - name: cloudsql-instance-credentials
