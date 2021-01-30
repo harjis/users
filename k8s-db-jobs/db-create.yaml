@@ -9,11 +9,15 @@ spec:
       containers:
         - name: db-create
           image: d0rka/users-backend
-          command: ['bundle', 'exec', 'rake']
-          args: ['db:create']
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              sleep 2s
+              trap "touch /tmp/pod/main-terminated" EXIT
+              bundle exec rake db:create
           env:
             - name: PGHOST
-              value: postgres-cluster-ip-service
+              value: 127.0.0.1
             - name: PGUSER
               value: postgres
             - name: POSTGRES_PASSWORD
@@ -27,4 +31,31 @@ spec:
               value: users_test
             - name: PGDATABASE_PRODUCTION
               value: users_production
-
+          volumeMounts:
+            - name: tmp-pod
+              mountPath: /tmp/pod
+        - name: cloud-sql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.17
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              /cloud_sql_proxy -instances=users-303013:europe-north1:my-instance=tcp:5432 -credential_file=/secrets/service_account.json &
+              CHILD_PID=$!
+              (while true; do if [[ -f "/tmp/pod/main-terminated" ]]; then kill $CHILD_PID; echo "Killed $CHILD_PID as the main container terminated."; fi; sleep 1; done) &
+              wait $CHILD_PID
+              if [[ -f "/tmp/pod/main-terminated" ]]; then exit 0; echo "Job completed. Exiting..."; fi
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/
+              readOnly: true
+            - name: tmp-pod
+              mountPath: /tmp/pod
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: sql-sa
+        - name: tmp-pod
+          emptyDir: {}
