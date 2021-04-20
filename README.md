@@ -28,5 +28,17 @@ skaffold dev
 
 ```shell script
 helm repo add harjis-charts https://harjis.github.io/helm-charts/
-helm install auth-service harjis-charts/authentication-service -f auth_values.yaml
+helm install auth-service harjis-charts/authentication-service -f k8s-helm/auth_values.yaml
+```
+
+#Linode setup
+
+```shell script
+helm repo add harjis-charts https://harjis.github.io/helm-charts/
+helm install auth-service harjis-charts/authentication-service -f k8s-helm/auth_values.yaml
+```
+
+Install certificates (you only need to do this once)
+```shell script
+kubectl apply -f k8s-https/
 ```

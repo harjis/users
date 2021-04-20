@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-service
@@ -9,16 +9,22 @@ spec:
     - http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: authentication-service-frontend-cluster-ip-service
-              servicePort: 3001
+              service:
+                name: authentication-service-frontend-cluster-ip-service
+                port:
+                  number: 3001
 
           - path: /api/
+            pathType: Prefix
             backend:
-              serviceName: authentication-service-backend-proxy-cluster-ip-service
-              servicePort: 3000
+              service:
+                name: authentication-service-backend-proxy-cluster-ip-service
+                port:
+                  number: 3000
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-service-module-federation
@@ -30,6 +36,9 @@ spec:
     - http:
         paths:
           - path: /main_app_mf(/|$)(.*)
+            pathType: Prefix
             backend:
-              serviceName: frontend-cluster-ip-service
-              servicePort: 3001
+              service:
+                name: frontend-cluster-ip-service
+                port:
+                  number: 3001
