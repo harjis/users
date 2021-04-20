@@ -38,7 +38,15 @@ helm repo add harjis-charts https://harjis.github.io/helm-charts/
 helm install auth-service harjis-charts/authentication-service -f k8s-helm/auth_values.yaml
 ```
 
+Install cert-manager (Make sure you use Option 1 and not Option 2):
+https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm
+
 Install certificates (you only need to do this once)
+```shell script
+kubectl apply -f k8s-https/
+```
+
+Install production web gateway
 ```shell script
 kubectl apply -f k8s-https/
 ```

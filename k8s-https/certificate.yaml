@@ -1,4 +1,4 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: harjukallio-club-tls
@@ -12,12 +12,3 @@ spec:
     - harjukallio.club
     - www.harjukallio.club
     - users.harjukallio.club
-  acme:
-    config:
-      -
-        http01:
-          ingressClass: nginx
-        domains:
-          - harjukallio.club
-          - www.harjukallio.club
-          - users.harjukallio.club
