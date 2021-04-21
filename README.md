@@ -48,5 +48,5 @@ kubectl apply -f k8s-https/
 
 Install production web gateway
 ```shell script
-kubectl apply -f k8s-https/
+kubectl apply -f k8s-production/
 ```
