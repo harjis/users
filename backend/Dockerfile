@@ -1,4 +1,4 @@
-FROM ruby:2.6.3
+FROM ruby:2.7.4
 RUN mkdir /myapp
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile

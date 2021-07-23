@@ -24,6 +24,11 @@ skaffold dev
 ./db-helpers/migrate.sh
 ```
 
+5. Open tunnel to minikube (required for okta authentication)
+```shell
+sudo ssh -i $(minikube ssh-key) docker@$(minikube ip) -L 80:localhost:80
+```
+
 #GCP Setup
 
 ```shell script
