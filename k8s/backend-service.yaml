@@ -33,3 +33,15 @@ spec:
               value: users_test
             - name: PGDATABASE_PRODUCTION
               value: users_production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: server
+  ports:
+    - port: 3000
+      targetPort: 3000
