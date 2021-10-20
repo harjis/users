@@ -21,10 +21,12 @@ module "lke_cluster" {
   subdomain = var.subdomain
 }
 
+# TODO Put real step 2 here meaning install authentication-service with helm
+
 # Step 2.
 
 module "godaddy_ip" {
-  source    = "./modules/godaddy-ip"
+  source = "./modules/godaddy-ip"
 
   secret    = var.godaddy_secret
   key       = var.godaddy_key
