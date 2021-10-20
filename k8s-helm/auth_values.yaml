@@ -1,2 +1,2 @@
-backendHost: backend-cluster-ip-service
+backendHost: backend-cis
 backendPort: 3000

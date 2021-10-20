@@ -14,6 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
+#          image: %{ if docker_image != "" }${docker_image}%{ else }d0rka/users-frontend%{ endif }
           image: d0rka/users-frontend
           ports:
             - containerPort: 3001
@@ -21,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-cluster-ip-service
+  name: frontend-cis
 spec:
   type: ClusterIP
   selector:

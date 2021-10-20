@@ -39,6 +39,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: frontend-cluster-ip-service
+                name: frontend-cis
                 port:
                   number: 3001
