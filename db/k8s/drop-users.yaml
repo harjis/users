@@ -9,14 +9,16 @@ spec:
       containers:
         - name: db-drop-users
           image: d0rka/users-backend
-          imagePullPolicy: Never
-          args: ["drop=true"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              sleep 2s
+              trap "touch /tmp/pod/main-terminated" EXIT
+              bundle exec rake db:drop
           env:
-            - name: POSTGRES_HOST
+            - name: PGHOST
               value: postgresql
-            - name: POSTGRES_PORT
-              value: '5432'
-            - name: POSTGRES_USERNAME
+            - name: PGUSER
               value: postgres
             - name: POSTGRES_PASSWORD
               valueFrom:

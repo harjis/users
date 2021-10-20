@@ -18,9 +18,9 @@ kubectl set image deployments/backend-deployment backend=d0rka/users-backend:$SH
 kubectl set image deployments/frontend-deployment frontend=d0rka/users-frontend:$SHA
 
 kubectl apply -f k8s-db-jobs/db-create-users.yaml
-kubectl apply -f k8s-db-jobs/db-migrate.yaml
+kubectl apply -f k8s-db-jobs/db-migrate-users.yaml
 
-kubectl wait --for=condition=complete --timeout=600s job/db-migrate
+kubectl wait --for=condition=complete --timeout=600s job/db-migrate-users
 
 kubectl delete job db-create-users
-kubectl delete job db-migrate
+kubectl delete job db-migrate-users

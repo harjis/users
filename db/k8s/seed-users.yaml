@@ -1,20 +1,20 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: db-migrate-users
+  name: db-seed-users
 spec:
   template:
     spec:
       restartPolicy: Never
       containers:
-        - name: db-migrate-users
+        - name: db-seed-users
           image: d0rka/users-backend
           command: ["/bin/sh", "-c"]
           args:
             - |
               sleep 2s
               trap "touch /tmp/pod/main-terminated" EXIT
-              bundle exec rake db:migrate
+              bundle exec rake db:seed
           env:
             - name: PGHOST
               value: postgresql
