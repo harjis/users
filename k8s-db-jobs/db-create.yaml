@@ -1,13 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: db-create
+  name: db-create-users
 spec:
   template:
     spec:
       restartPolicy: Never
       containers:
-        - name: db-create
+        - name: db-create-users
           image: d0rka/users-backend
           command: ["/bin/sh", "-c"]
           args:

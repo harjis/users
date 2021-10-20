@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-create-users
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: db-create-users
+          image: d0rka/users-backend
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              sleep 2s
+              trap "touch /tmp/pod/main-terminated" EXIT
+              bundle exec rake db:create
+          env:
+            - name: PGHOST
+              value: postgresql
+            - name: PGUSER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DATABASE
+              value: users_development

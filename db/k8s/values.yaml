@@ -1,0 +1,10 @@
+global:
+  postgresql:
+    existingSecret: pgpassword
+
+image:
+  repository: debezium/postgres
+  tag: "12"
+
+persistence:
+  existingClaim: users-db-pvc
