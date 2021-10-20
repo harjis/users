@@ -46,6 +46,12 @@ Install certificates (you only need to do this once)
 kubectl apply -f k8s-https/
 ```
 
+Verify with:
+```shell
+kubectl get certificates
+kubectl describe certificates 
+```
+
 Install production web gateway
 ```shell script
 kubectl apply -f k8s-production/
