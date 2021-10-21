@@ -9,6 +9,7 @@ spec:
       containers:
         - name: db-drop-users
           image: d0rka/users-backend
+          imagePullPolicy: Never
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -24,6 +25,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: pgpassword
-                  key: POSTGRES_PASSWORD
+                  key: postgresql-password
             - name: POSTGRES_DATABASE
               value: users_development

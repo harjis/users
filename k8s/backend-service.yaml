@@ -20,14 +20,14 @@ spec:
             - containerPort: 3000
           env:
             - name: PGHOST
-              value: postgres-cluster-ip-service
+              value: postgresql
             - name: PGUSER
               value: postgres
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: pgpassword
-                  key: POSTGRES_PASSWORD
+                  key: postgresql-password
             - name: PGDATABASE_DEVELOPMENT
               value: users_development
             - name: PGDATABASE_TEST
