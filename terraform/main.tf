@@ -21,8 +21,6 @@ module "lke_cluster" {
   subdomain = var.subdomain
 }
 
-# TODO Put real step 2 here meaning install authentication-service with helm
-
 # Step 2.
 
 module "godaddy_ip" {
@@ -35,6 +33,15 @@ module "godaddy_ip" {
 }
 
 # Step 3.
+
+module "authentication-service" {
+  source             = "./modules/authentication-service"
+  api_endpoint       = local.api_endpoint
+  kubeconfig_string  = local.kubeconfig_string
+  values_file_string = data.local_file.auth-values
+}
+
+# Step 4.
 # We need to install cert-manager as a separate step from creating issuer and certificate
 # Sometimes installation of cert-manager fails and re-running the steps with issuer&certificate included does not work
 
@@ -44,7 +51,7 @@ module "cert-manager" {
   kubeconfig_string = local.kubeconfig_string
 }
 
-# Step 4.
+# Step 5.
 
 module "cert-manager-certificate" {
   source            = "./modules/cert-manager-certificate"

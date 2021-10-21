@@ -42,14 +42,14 @@ ssh-keygen -R 192.168.64.3
 
 ```shell script
 helm repo add harjis-charts https://harjis.github.io/helm-charts/
-helm install auth-service harjis-charts/authentication-service -f k8s-helm/auth_values.yaml
+helm install auth-service harjis-charts/authentication-service -f k8s-helm/values.yaml
 ```
 
 #Linode setup
 
 ```shell script
 helm repo add harjis-charts https://harjis.github.io/helm-charts/
-helm install auth-service harjis-charts/authentication-service -f k8s-helm/auth_values.yaml
+helm install auth-service harjis-charts/authentication-service -f k8s-helm/values.yaml
 ```
 
 Install cert-manager (Make sure you use Option 1 and not Option 2):
