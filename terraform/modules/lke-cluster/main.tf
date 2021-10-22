@@ -19,7 +19,7 @@ resource "linode_lke_cluster" "kubernetes-cluster" {
   tags        = ["testing"]
 
   pool {
-    type  = "g6-nanode-1"
+    type  = "g6-standard-1"
     count = 1
   }
 }
