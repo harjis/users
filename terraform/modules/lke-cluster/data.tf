@@ -13,3 +13,21 @@ data "kubectl_path_documents" "frontend-service-manifests" {
     docker_image = "d0rka/users-frontend:${var.gitsha}"
   }
 }
+
+data "kubectl_path_documents" "create-db-manifests" {
+  pattern = "${path.module}/create-users-prod.yaml"
+
+  vars = {
+    postgres_host     = var.postgres_host
+    postgres_username = var.postgres_username
+  }
+}
+
+data "kubectl_path_documents" "migrate-db-manifests" {
+  pattern = "${path.module}/migrate-users-prod.yaml"
+
+  vars = {
+    postgres_host     = var.postgres_host
+    postgres_username = var.postgres_username
+  }
+}

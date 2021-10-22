@@ -121,3 +121,11 @@ resource "kubectl_manifest" "frontend-server" {
 resource "kubectl_manifest" "frontend-cis" {
   yaml_body = element(data.kubectl_path_documents.frontend-service-manifests.documents, 1)
 }
+
+resource "kubectl_manifest" "create-db" {
+  yaml_body = element(data.kubectl_path_documents.create-db-manifests.documents, 0)
+}
+
+resource "kubectl_manifest" "migrate-db" {
+  yaml_body = element(data.kubectl_path_documents.migrate-db-manifests.documents, 0)
+}
