@@ -113,3 +113,11 @@ resource "kubectl_manifest" "backend-server" {
 resource "kubectl_manifest" "backend-cis" {
   yaml_body = element(data.kubectl_path_documents.backend-service-manifests.documents, 1)
 }
+
+resource "kubectl_manifest" "frontend-server" {
+  yaml_body = element(data.kubectl_path_documents.frontend-service-manifests.documents, 0)
+}
+
+resource "kubectl_manifest" "frontend-cis" {
+  yaml_body = element(data.kubectl_path_documents.frontend-service-manifests.documents, 1)
+}

@@ -20,10 +20,10 @@ spec:
             - containerPort: 3000
           env:
             - name: PGHOST
-              value: ${postgres_host}
+              value: %{ if postgres_host != "" }${postgres_host}%{ else }postgresql%{ endif }
 #              value: postgresql
             - name: PGUSER
-              value: ${postgres_username}
+              value: %{ if postgres_username != "" }${postgres_username}%{ else }postgres%{ endif }
 #              value: postgres
             - name: POSTGRES_PASSWORD
               valueFrom:
