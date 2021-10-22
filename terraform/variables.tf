@@ -17,7 +17,7 @@ variable "godaddy_secret" {
 
 variable "subdomain" {
   description = "Subdomain name (users is the subdomain in 'users.harjukallio.club') Do not change the default!"
-  default     = "users2"
+  default     = "users"
 }
 
 variable "postgres_username" {
