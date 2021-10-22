@@ -11,7 +11,7 @@ minikube addons enable ingress
 2. Install postgres
 ```shell script
 ./db/install.sh
-./db/build.sh
+./db/build-migration-image.sh
 ./db/create.sh
 ./db/migrate.sh
 ./db/seed.sh
