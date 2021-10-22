@@ -8,8 +8,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-create-users
-          image: d0rka/users-backend
-          imagePullPolicy: Never
+          image: d0rka/users-backend:${gitsha}
           command: ["/bin/sh", "-c"]
           args:
             - |

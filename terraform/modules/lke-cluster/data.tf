@@ -18,6 +18,7 @@ data "kubectl_path_documents" "create-db-manifests" {
   pattern = "${path.module}/create-users-prod.yaml"
 
   vars = {
+    gitsha            = var.gitsha
     postgres_host     = var.postgres_host
     postgres_username = var.postgres_username
   }
@@ -27,6 +28,7 @@ data "kubectl_path_documents" "migrate-db-manifests" {
   pattern = "${path.module}/migrate-users-prod.yaml"
 
   vars = {
+    gitsha            = var.gitsha
     postgres_host     = var.postgres_host
     postgres_username = var.postgres_username
   }
