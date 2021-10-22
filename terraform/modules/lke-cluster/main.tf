@@ -24,6 +24,16 @@ resource "linode_lke_cluster" "kubernetes-cluster" {
   }
 }
 
+resource "kubernetes_secret" "pgpassword" {
+  metadata {
+    name = "pgpassword"
+  }
+
+  data = {
+    postgresql-password = var.postgres_pass
+  }
+}
+
 resource "helm_release" "ingress-nginx" {
   name       = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"

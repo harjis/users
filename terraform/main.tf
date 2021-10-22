@@ -19,42 +19,44 @@ module "lke_cluster" {
   token  = var.token
 
   subdomain = var.subdomain
+
+  postgres_pass = var.postgres_pass
 }
 
 # Step 2.
 
-module "godaddy_ip" {
-  source = "./modules/godaddy-ip"
-
-  secret    = var.godaddy_secret
-  key       = var.godaddy_key
-  public_ip = module.lke_cluster.public_ip
-  subdomain = var.subdomain
-}
+#module "godaddy_ip" {
+#  source = "./modules/godaddy-ip"
+#
+#  secret    = var.godaddy_secret
+#  key       = var.godaddy_key
+#  public_ip = module.lke_cluster.public_ip
+#  subdomain = var.subdomain
+#}
 
 # Step 3.
 
-module "authentication-service" {
-  source             = "./modules/authentication-service"
-  api_endpoint       = local.api_endpoint
-  kubeconfig_string  = local.kubeconfig_string
-  values_file_string = data.local_file.auth-values
-}
+#module "authentication-service" {
+#  source             = "./modules/authentication-service"
+#  api_endpoint       = local.api_endpoint
+#  kubeconfig_string  = local.kubeconfig_string
+#  values_file_string = data.local_file.auth-values
+#}
 
 # Step 4.
 # We need to install cert-manager as a separate step from creating issuer and certificate
 # Sometimes installation of cert-manager fails and re-running the steps with issuer&certificate included does not work
 
-module "cert-manager" {
-  source            = "./modules/cert-manager"
-  api_endpoint      = local.api_endpoint
-  kubeconfig_string = local.kubeconfig_string
-}
+#module "cert-manager" {
+#  source            = "./modules/cert-manager"
+#  api_endpoint      = local.api_endpoint
+#  kubeconfig_string = local.kubeconfig_string
+#}
 
 # Step 5.
 
-module "cert-manager-certificate" {
-  source            = "./modules/cert-manager-certificate"
-  api_endpoint      = local.api_endpoint
-  kubeconfig_string = local.kubeconfig_string
-}
+#module "cert-manager-certificate" {
+#  source            = "./modules/cert-manager-certificate"
+#  api_endpoint      = local.api_endpoint
+#  kubeconfig_string = local.kubeconfig_string
+#}

@@ -9,6 +9,4 @@ spec:
     kind: ClusterIssuer
   commonName: harjukallio.club
   dnsNames:
-    - harjukallio.club
-    - www.harjukallio.club
-    - users.harjukallio.club
+    - users2.harjukallio.club

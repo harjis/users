@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: backend
-#          image: %{ if docker_image != "" }${docker_image}%{ else }d0rka/users-backend%{ endif }
-          image: d0rka/users-backend
+          image: %{ if docker_image != "" }${docker_image}%{ else }d0rka/users-backend%{ endif }
+#          image: d0rka/users-backend
           ports:
             - containerPort: 3000
           env:

@@ -9,3 +9,7 @@ variable "gitsha" {
 variable "subdomain" {
   description = "Subdomain name (users is the subdomain in 'users.harjukallio.club') Do not ADD default here!"
 }
+
+variable "postgres_pass" {
+  description = "Password for postgres"
+}
