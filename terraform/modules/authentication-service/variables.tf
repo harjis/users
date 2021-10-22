@@ -6,6 +6,6 @@ variable "api_endpoint" {
   description = "LKE API endpoint"
 }
 
-variable "values_file_string" {
-  description = "values.yaml as a string"
+variable "values_file_path" {
+  description = "values.yaml path"
 }

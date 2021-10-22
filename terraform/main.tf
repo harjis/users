@@ -39,10 +39,10 @@ module "lke_cluster" {
 # Step 3.
 
 #module "authentication-service" {
-#  source             = "./modules/authentication-service"
-#  api_endpoint       = local.api_endpoint
-#  kubeconfig_string  = local.kubeconfig_string
-#  values_file_string = data.local_file.auth-values
+#  source            = "./modules/authentication-service"
+#  api_endpoint      = local.api_endpoint
+#  kubeconfig_string = local.kubeconfig_string
+#  values_file_path  = "./values.yaml"
 #}
 
 # Step 4.

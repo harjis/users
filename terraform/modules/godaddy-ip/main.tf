@@ -1,10 +1,10 @@
 resource "null_resource" "godaddy_ip" {
   triggers = {
-    run_always = timestamp()
+    run_if_ip_changes = var.public_ip
   }
 
   provisioner "local-exec" {
-    command = "./terraform/modules/godaddy-ip/add-ip-to-godaddy-dns-records.sh $KEY $SECRET $SUBDOMAIN $IP"
+    command = "./modules/godaddy-ip/add-ip-to-godaddy-dns-records.sh $KEY $SECRET $SUBDOMAIN $IP"
 
     environment = {
       KEY       = var.key

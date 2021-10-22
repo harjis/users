@@ -14,6 +14,6 @@ resource "helm_release" "authentication-service" {
   version    = "0.1.0"
 
   values = [
-    yamldecode(var.values_file_string)
+    file(var.values_file_path)
   ]
 }
