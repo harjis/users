@@ -123,7 +123,8 @@ resource "kubectl_manifest" "frontend-cis" {
 }
 
 resource "kubectl_manifest" "postgres-server" {
-  yaml_body = element(data.kubectl_path_documents.postgres-service-manifests.documents, 0)
+  depends_on = [kubernetes_secret.pgpassword]
+  yaml_body  = element(data.kubectl_path_documents.postgres-service-manifests.documents, 0)
 }
 
 resource "kubectl_manifest" "postgres-cis" {

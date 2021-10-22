@@ -30,7 +30,7 @@ variable "postgres_password" {
 
 variable "postgres_host" {
   description = "host for postgres"
-  default     = "10.0.0.1"
+  default     = "postgres-cis"
 }
 
 variable "oktaissuer" {
