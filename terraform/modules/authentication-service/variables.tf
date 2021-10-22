@@ -9,3 +9,11 @@ variable "api_endpoint" {
 variable "values_file_path" {
   description = "values.yaml path"
 }
+
+variable "oktaissuer" {
+  description = "Okta issuer"
+}
+
+variable "oktaclientid" {
+  description = "Okta client ID"
+}

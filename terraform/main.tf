@@ -43,6 +43,9 @@ module "lke_cluster" {
 #  api_endpoint      = local.api_endpoint
 #  kubeconfig_string = local.kubeconfig_string
 #  values_file_path  = "./values.yaml"
+#
+#  oktaissuer   = var.oktaissuer
+#  oktaclientid = var.oktaclientid
 #}
 
 # Step 4.

@@ -17,3 +17,23 @@ resource "helm_release" "authentication-service" {
     file(var.values_file_path)
   ]
 }
+
+resource "kubernetes_secret" "oktaissuer" {
+  metadata {
+    name = "oktaissuer"
+  }
+
+  data = {
+    OKTA_ISSUER = var.oktaissuer
+  }
+}
+
+resource "kubernetes_secret" "oktaclientid" {
+  metadata {
+    name = "oktaclientid"
+  }
+
+  data = {
+    OKTA_CLIENTID = var.oktaclientid
+  }
+}

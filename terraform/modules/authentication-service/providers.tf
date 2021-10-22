@@ -14,3 +14,9 @@ provider "helm" {
     cluster_ca_certificate = local.ca_certificate
   }
 }
+
+provider "kubernetes" {
+  host                   = local.api_endpoint
+  token                  = local.api_token
+  cluster_ca_certificate = local.ca_certificate
+}

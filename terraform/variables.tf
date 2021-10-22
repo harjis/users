@@ -32,3 +32,11 @@ variable "postgres_host" {
   description = "host for postgres"
   default     = "10.0.0.1"
 }
+
+variable "oktaissuer" {
+  description = "Okta issuer"
+}
+
+variable "oktaclientid" {
+  description = "Okta client ID"
+}
