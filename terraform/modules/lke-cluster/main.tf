@@ -22,6 +22,16 @@ resource "linode_lke_cluster" "kubernetes-cluster" {
     type  = "g6-standard-1"
     count = 1
   }
+
+  interface {
+    purpose = "public"
+  }
+
+  interface {
+    purpose      = "vlan"
+    label        = "postgres-vlan"
+    ipam_address = "10.0.0.2/24"
+  }
 }
 
 resource "kubernetes_secret" "pgpassword" {
