@@ -20,7 +20,9 @@ module "lke_cluster" {
 
   subdomain = var.subdomain
 
-  postgres_pass = var.postgres_pass
+  postgres_username = var.postgres_username
+  postgres_password = var.postgres_password
+  postgres_host     = var.postgres_host
 }
 
 # Step 2.

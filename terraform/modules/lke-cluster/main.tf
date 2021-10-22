@@ -30,7 +30,7 @@ resource "kubernetes_secret" "pgpassword" {
   }
 
   data = {
-    postgresql-password = var.postgres_pass
+    postgresql-password = var.postgres_password
   }
 }
 

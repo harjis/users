@@ -20,9 +20,11 @@ spec:
             - containerPort: 3000
           env:
             - name: PGHOST
-              value: postgresql
+              value: ${postgres_hostname}
+#              value: postgresql
             - name: PGUSER
-              value: postgres
+              value: ${postgres_username}
+#              value: postgres
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
