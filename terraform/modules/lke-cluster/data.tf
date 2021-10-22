@@ -14,6 +14,14 @@ data "kubectl_path_documents" "frontend-service-manifests" {
   }
 }
 
+data "kubectl_path_documents" "postgres-pvc-manifests" {
+  pattern = "${path.module}/db-pvc.yaml"
+}
+
+data "kubectl_path_documents" "postgres-service-manifests" {
+  pattern = "${path.module}/postgres-service.yaml"
+}
+
 data "kubectl_path_documents" "create-db-manifests" {
   pattern = "${path.module}/create-users-prod.yaml"
 

@@ -22,16 +22,6 @@ resource "linode_lke_cluster" "kubernetes-cluster" {
     type  = "g6-standard-1"
     count = 1
   }
-
-  interface {
-    purpose = "public"
-  }
-
-  interface {
-    purpose      = "vlan"
-    label        = "postgres-vlan"
-    ipam_address = "10.0.0.2/24"
-  }
 }
 
 resource "kubernetes_secret" "pgpassword" {
@@ -132,10 +122,24 @@ resource "kubectl_manifest" "frontend-cis" {
   yaml_body = element(data.kubectl_path_documents.frontend-service-manifests.documents, 1)
 }
 
+resource "kubectl_manifest" "postgres-server" {
+  yaml_body = element(data.kubectl_path_documents.postgres-service-manifests.documents, 0)
+}
+
+resource "kubectl_manifest" "postgres-cis" {
+  yaml_body = element(data.kubectl_path_documents.postgres-service-manifests.documents, 1)
+}
+
+resource "kubectl_manifest" "postgres-pvc" {
+  yaml_body = element(data.kubectl_path_documents.postgres-pvc-manifests.documents, 0)
+}
+
 resource "kubectl_manifest" "create-db" {
-  yaml_body = element(data.kubectl_path_documents.create-db-manifests.documents, 0)
+  depends_on = [kubectl_manifest.postgres-server]
+  yaml_body  = element(data.kubectl_path_documents.create-db-manifests.documents, 0)
 }
 
 resource "kubectl_manifest" "migrate-db" {
-  yaml_body = element(data.kubectl_path_documents.migrate-db-manifests.documents, 0)
+  depends_on = [kubectl_manifest.postgres-server]
+  yaml_body  = element(data.kubectl_path_documents.migrate-db-manifests.documents, 0)
 }
