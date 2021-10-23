@@ -33,7 +33,7 @@ sudo ssh -i $(minikube ssh-key) docker@$(minikube ip) -L 80:localhost:80
 ```
 If tunnel creation fails remove the previous ssh key. Use `minikube ip` here 
 ```shell
-ssh-keygen -R 192.168.64.3
+sudo ssh-keygen -R 192.168.64.3
 ```
 
 6. Access the application on [localhost:80](http://localhost:80)

@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: %{ if docker_image != "" }${docker_image}%{ else }d0rka/users-frontend%{ endif }
-#          image: d0rka/users-frontend
+          image: d0rka/users-frontend
           ports:
             - containerPort: 3001
 ---

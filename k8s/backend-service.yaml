@@ -14,17 +14,14 @@ spec:
     spec:
       containers:
         - name: backend
-          image: %{ if docker_image != "" }${docker_image}%{ else }d0rka/users-backend%{ endif }
-#          image: d0rka/users-backend
+          image: d0rka/users-backend
           ports:
             - containerPort: 3000
           env:
             - name: POSTGRES_HOST
-              value: %{ if postgres_host != "" }${postgres_host}%{ else }postgresql%{ endif }
-#              value: postgresql
+              value: postgresql
             - name: POSTGRES_USER
-              value: %{ if postgres_username != "" }${postgres_username}%{ else }postgres%{ endif }
-#              value: postgres
+              value: postgres
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:

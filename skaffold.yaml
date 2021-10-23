@@ -12,7 +12,7 @@ build:
     - image: d0rka/users-backend
       context: backend
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         infer:
           - "**/*"
