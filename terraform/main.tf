@@ -12,6 +12,8 @@ locals {
   }
 }
 
+#Step 1.
+
 module "lke_cluster" {
   source = "./modules/lke-cluster"
 

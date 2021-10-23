@@ -38,35 +38,12 @@ ssh-keygen -R 192.168.64.3
 
 6. Access the application on [localhost:80](http://localhost:80)
 
-#GCP Setup
+Production setup:
 
-```shell script
-helm repo add harjis-charts https://harjis.github.io/helm-charts/
-helm install auth-service harjis-charts/authentication-service -f k8s-helm/values.yaml
-```
+- Open root module main.tf and comment out all other steps except Step 1.
+- Run `terraform plan && terraform apply`
+- Quite often creating ingress fails with `Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io":`
+- Download kubeconfig from Linode and delete validation hook manually `kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission`
+- Re-run Step 1
 
-#Linode setup
-
-```shell script
-helm repo add harjis-charts https://harjis.github.io/helm-charts/
-helm install auth-service harjis-charts/authentication-service -f k8s-helm/values.yaml
-```
-
-Install cert-manager (Make sure you use Option 1 and not Option 2):
-https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm
-
-Install certificates (you only need to do this once)
-```shell script
-kubectl apply -f k8s-https/
-```
-
-Verify with:
-```shell
-kubectl get certificates
-kubectl describe certificates 
-```
-
-Install production web gateway
-```shell script
-kubectl apply -f k8s-production/
-```
+- When Step 1 has completed successfully you can start uncommenting other steps 1 step at a time.
