@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: backend
+          image: %{ if docker_image != "" }${docker_image}%{ else }d0rka/users-backend%{ endif }
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_HOST
+              value: postgresql
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: postgresql-password
+            - name: POSTGRES_DATABASE_DEVELOPMENT
+              value: users_development
+            - name: POSTGRES_DATABASE_TEST
+              value: users_test
+            - name: POSTGRES_DATABASE_PRODUCTION
+              value: users_production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-cis
+spec:
+  type: ClusterIP
+  selector:
+    component: server
+  ports:
+    - port: 3000
+      targetPort: 3000
