@@ -31,3 +31,7 @@ variable "oktaissuer" {
 variable "oktaclientid" {
   description = "Okta client ID"
 }
+
+variable "rails_master_key" {
+  description = "Master key for rails"
+}

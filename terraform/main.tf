@@ -23,6 +23,8 @@ module "lke_cluster" {
   subdomain = var.subdomain
 
   postgres_password = var.postgres_password
+
+  rails_master_key = var.rails_master_key
 }
 
 # Step 2.

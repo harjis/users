@@ -32,3 +32,5 @@ spec:
               value: users_test
             - name: POSTGRES_DATABASE_PRODUCTION
               value: users_production
+            - name: RAILS_MASTER_KEY
+              value: ${rails_master_key}

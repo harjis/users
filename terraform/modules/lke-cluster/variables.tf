@@ -13,3 +13,7 @@ variable "subdomain" {
 variable "postgres_password" {
   description = "Password for postgres"
 }
+
+variable "rails_master_key" {
+  description = "Master key for rails"
+}
