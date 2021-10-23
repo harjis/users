@@ -23,7 +23,7 @@ data "kubectl_path_documents" "postgres-service-manifests" {
 }
 
 data "kubectl_path_documents" "create-db-manifests" {
-  pattern = "${path.module}/k8s/create-users-prod.yaml"
+  pattern = "${path.module}/k8s/create-users.yaml"
 
   vars = {
     gitsha            = var.gitsha
@@ -33,7 +33,7 @@ data "kubectl_path_documents" "create-db-manifests" {
 }
 
 data "kubectl_path_documents" "migrate-db-manifests" {
-  pattern = "${path.module}/k8s/migrate-users-prod.yaml"
+  pattern = "${path.module}/k8s/migrate-users.yaml"
 
   vars = {
     gitsha            = var.gitsha
