@@ -20,17 +20,8 @@ variable "subdomain" {
   default     = "users"
 }
 
-variable "postgres_username" {
-  description = "Username for postgres"
-}
-
 variable "postgres_password" {
   description = "Password for postgres"
-}
-
-variable "postgres_host" {
-  description = "host for postgres"
-  default     = "postgres-cis"
 }
 
 variable "oktaissuer" {
