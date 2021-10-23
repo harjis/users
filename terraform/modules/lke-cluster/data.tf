@@ -16,10 +16,6 @@ data "kubectl_path_documents" "postgres-pvc-manifests" {
   pattern = "${path.module}/k8s/db-pvc.yaml"
 }
 
-data "kubectl_path_documents" "postgres-service-manifests" {
-  pattern = "${path.module}/k8s/postgres-service.yaml"
-}
-
 data "kubectl_path_documents" "create-db-manifests" {
   pattern = "${path.module}/k8s/create-users-prod.yaml"
 

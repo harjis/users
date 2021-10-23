@@ -106,6 +106,20 @@ resource "kubernetes_ingress" "ingress-service-module-federation" {
   }
 }
 
+resource "kubectl_manifest" "postgres-pvc" {
+  yaml_body = element(data.kubectl_path_documents.postgres-pvc-manifests.documents, 0)
+}
+
+resource "helm_release" "bitnami" {
+  depends_on = [kubectl_manifest.postgres-pvc]
+  name       = "postgresql"
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "bitnami/postgresql"
+  values = [
+    file("${path.module}/k8s/values.yaml")
+  ]
+}
+
 resource "kubectl_manifest" "backend-server" {
   yaml_body = element(data.kubectl_path_documents.backend-service-manifests.documents, 0)
 }
@@ -122,25 +136,12 @@ resource "kubectl_manifest" "frontend-cis" {
   yaml_body = element(data.kubectl_path_documents.frontend-service-manifests.documents, 1)
 }
 
-resource "kubectl_manifest" "postgres-server" {
-  depends_on = [kubernetes_secret.pgpassword]
-  yaml_body  = element(data.kubectl_path_documents.postgres-service-manifests.documents, 0)
-}
-
-resource "kubectl_manifest" "postgres-cis" {
-  yaml_body = element(data.kubectl_path_documents.postgres-service-manifests.documents, 1)
-}
-
-resource "kubectl_manifest" "postgres-pvc" {
-  yaml_body = element(data.kubectl_path_documents.postgres-pvc-manifests.documents, 0)
-}
-
 resource "kubectl_manifest" "create-db" {
-  depends_on = [kubectl_manifest.postgres-server]
+  depends_on = [helm_release.bitnami]
   yaml_body  = element(data.kubectl_path_documents.create-db-manifests.documents, 0)
 }
 
 resource "kubectl_manifest" "migrate-db" {
-  depends_on = [kubectl_manifest.postgres-server]
+  depends_on = [helm_release.bitnami]
   yaml_body  = element(data.kubectl_path_documents.migrate-db-manifests.documents, 0)
 }
