@@ -3,8 +3,8 @@ default: &default
   encoding: unicode
   pool: 5
   timeout: 5000
-  host: <%= ENV.fetch("PGHOST", "localhost") %>
-  username: <%= ENV.fetch("PGUSER", "postgres") %>
+  host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
+  username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
   password: <%= ENV.fetch("PGPASSWORD", "my_pgpassword") %>
 
 development:

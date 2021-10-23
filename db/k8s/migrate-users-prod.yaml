@@ -16,9 +16,9 @@ spec:
               trap "touch /tmp/pod/main-terminated" EXIT
               bundle exec rake db:migrate
           env:
-            - name: PGHOST
+            - name: POSTGRES_HOST
               value: ${postgres_host}
-            - name: PGUSER
+            - name: POSTGRES_USER
               value: ${postgres_username}
             - name: POSTGRES_PASSWORD
               valueFrom:
