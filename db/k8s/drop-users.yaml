@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-drop-users
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: db-drop-users
+          image: d0rka/users-backend
+          imagePullPolicy: Never
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              sleep 2s
+              trap "touch /tmp/pod/main-terminated" EXIT
+              bundle exec rake db:drop
+          env:
+            - name: POSTGRES_HOST
+              value: postgresql
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: postgresql-password
+            - name: POSTGRES_DATABASE_DEVELOPMENT
+              value: users_development
+            - name: POSTGRES_DATABASE_TEST
+              value: users_test
+            - name: POSTGRES_DATABASE_PRODUCTION
+              value: users_production

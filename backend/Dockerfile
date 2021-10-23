@@ -1,10 +1,15 @@
 FROM ruby:2.7.4
+
+ENV RAILS_ENV production
+
 RUN mkdir /myapp
 WORKDIR /myapp
+
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN gem install bundler rails
 RUN bundle install
+
 COPY . /myapp
 
 # Add a script to be executed every time the container starts.
