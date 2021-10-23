@@ -114,7 +114,7 @@ resource "helm_release" "bitnami" {
   depends_on = [kubectl_manifest.postgres-pvc]
   name       = "postgresql"
   repository = "https://charts.bitnami.com/bitnami"
-  chart      = "bitnami/postgresql"
+  chart      = "postgresql"
   values = [
     file("${path.module}/k8s/values.yaml")
   ]
