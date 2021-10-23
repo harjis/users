@@ -30,11 +30,11 @@ spec:
                 secretKeyRef:
                   name: pgpassword
                   key: postgresql-password
-            - name: PGDATABASE_DEVELOPMENT
+            - name: POSTGRES_DATABASE_DEVELOPMENT
               value: users_development
-            - name: PGDATABASE_TEST
+            - name: POSTGRES_DATABASE_TEST
               value: users_test
-            - name: PGDATABASE_PRODUCTION
+            - name: POSTGRES_DATABASE_PRODUCTION
               value: users_production
 ---
 apiVersion: v1

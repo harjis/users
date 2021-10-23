@@ -5,18 +5,18 @@ default: &default
   timeout: 5000
   host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
   username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
-  password: <%= ENV.fetch("PGPASSWORD", "my_pgpassword") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", "my_pgpassword") %>
 
 development:
   <<: *default
-  database: <%= ENV.fetch("PGDATABASE_DEVELOPMENT", "users_development") %>
+  database: <%= ENV.fetch("POSTGRES_DATABASE_DEVELOPMENT", "users_development") %>
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: <%= ENV.fetch("PGDATABASE_TEST", "users_test") %>
+  database: <%= ENV.fetch("POSTGRES_DATABASE_TEST", "users_test") %>
 
 production:
   <<: *default
-  database: <%= ENV.fetch("PGDATABASE_PRODUCTION", "users_production") %>
+  database: <%= ENV.fetch("POSTGRES_DATABASE_PRODUCTION", "users_production") %>
