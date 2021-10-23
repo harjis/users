@@ -38,7 +38,7 @@ sudo ssh-keygen -R 192.168.64.3
 
 6. Access the application on [localhost:80](http://localhost:80)
 
-Production setup:
+# Production setup:
 
 - Open root module main.tf and comment out all other steps except Step 1.
 - Run `terraform plan && terraform apply`
@@ -46,4 +46,16 @@ Production setup:
 - Download kubeconfig from Linode and delete validation hook manually `kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission`
 - Re-run Step 1
 
-- When Step 1 has completed successfully you can start uncommenting other steps 1 step at a time.
+- When Step 1 has completed successfully you can start uncommenting other steps 1 step at a time. Rest of the steps haven't been failing so far
+
+## Needed secrets
+
+- $TF_API_TOKEN
+- $DOCKER_USERNAME
+- $DOCKER_PASSWORD
+- $GODADDY_SECRET
+- $GODADDY_KEY
+- $POSTGRES_PASSWORD
+- $OKTA_ISSUER
+- $OKTA_CLIENT_ID
+- $RAILS_MASTER_KEY
