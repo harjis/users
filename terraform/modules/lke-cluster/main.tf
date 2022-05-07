@@ -13,7 +13,7 @@ locals {
 }
 
 resource "linode_lke_cluster" "kubernetes-cluster" {
-  k8s_version = "1.23"
+  k8s_version = "1.22"
   label       = "users-service"
   region      = "ca-central"
   tags        = ["testing"]
